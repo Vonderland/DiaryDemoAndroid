@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">DiaryDemo</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!--main menu-->
+    <string name="settings">设置</string>
+    <string name="about">关于</string>
+
+</resources>
