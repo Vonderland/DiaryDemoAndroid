@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                executeCall();
+//                executeCall();
             }
         });
 
@@ -65,42 +65,43 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void executeCall() {
-        DiaryDemoService apiService = ServiceGenerator.createService(DiaryDemoService.class);
-        //Call<ListResponse<Diary>> call = apiService.loadAllDiaries();
-        Map<String, String> options = new HashMap<>();
-        //Call<ListResponse<Diary>> call = apiService.loadDiaries(options);
+//    private void executeCall() {
+//        DiaryDemoService apiService = ServiceGenerator.createService(DiaryDemoService.class);
+//        //Call<ListResponse<Diary>> call = apiService.loadAllDiaries();
+//        Map<String, String> options = new HashMap<>();
+//        Call<ListResponse<Diary>> call = apiService.loadDiaries(options);
 //        options.put(Constant.KEY_DESCRIPTION, "来自变成猫的 android");
 //        options.put(Constant.KEY_EVENT_TIME, System.currentTimeMillis()+ "");
 //        options.put(Constant.KEY_TITLE, "android 无图测试修改");
-        //options.put(Constant.KEY_ID, "14");
-        Call<ListResponse<Diary>> call = apiService.deleteDiary(14);
-        call.enqueue(new Callback<ListResponse<Diary>>() {
-            @Override
-            public void onResponse(Call<ListResponse<Diary>> call, Response<ListResponse<Diary>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() instanceof ListResponse) {
-                        ListResponse resp = (ListResponse)response.body();
-                        List<Diary> data = (List<Diary>)resp.getData();
-                        Log.d(TAG, "status code = " + resp.getCode());
-                        Log.d(TAG, "size = " + resp.getSize());
-                        if (data != null) {
-                            Log.d(TAG, "list size = " + data.size());
-                            Diary diary = data.get(0);
-                            Log.d(TAG, diary.getTitle() + diary.getDescription());
-                        }
-                    }
-                } else {
-                    Log.d("Vonderland", "onresponse, failure");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ListResponse<Diary>> call, Throwable t) {
-                Log.d("", "onFailure");
-            }
-        });
-    }
+//        options.put(Constant.KEY_ID, "14");
+//        Call<ListResponse<Diary>> call = apiService.deleteDiary(14);
+//        call.enqueue(new Callback<ListResponse<Diary>>() {
+//            @Override
+//            public void onResponse(Call<ListResponse<Diary>> call, Response<ListResponse<Diary>> response) {
+//                if (response.isSuccessful()) {
+//                    if (response.body() instanceof ListResponse) {
+//                        ListResponse resp = (ListResponse)response.body();
+//                        List<Diary> data = (List<Diary>)resp.getData();
+//                        Log.d(TAG, "status code = " + resp.getCode());
+//                        Log.d(TAG, "size = " + resp.getSize());
+//                        if (data != null) {
+//                            Log.d(TAG, "list size = " + data.size());
+//                            Diary diary = data.get(0);
+//                            Log.d(TAG, diary.getTitle() + diary.getDescription());
+//                        }
+//                    }
+//                } else {
+//                    Log.d("Vonderland", "onresponse, failure");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ListResponse<Diary>> call, Throwable t) {
+//                Log.d("", "onFailure");
+//            }
+//        });
+//    }
+    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
