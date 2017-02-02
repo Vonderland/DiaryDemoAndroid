@@ -23,6 +23,7 @@ import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.network.DiaryDemoService;
 import com.vonderland.diarydemo.network.ServiceGenerator;
+import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
 
 import java.util.HashMap;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                L.d(TAG, DateTimeUtil.formatDate(System.currentTimeMillis()));
             }
         });
 

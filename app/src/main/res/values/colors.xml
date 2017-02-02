@@ -4,4 +4,11 @@
     <color name="colorPrimaryDark">#00796B</color>
     <color name="colorAccent">#FF5252</color>
     <color name="white">#FFFFFF</color>
+    <color name="primaryLight">#B2DFDB</color>
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#757575</color>
+    <color name="hintText">#808080</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="timelineColor">#eaeaea</color>
 </resources>

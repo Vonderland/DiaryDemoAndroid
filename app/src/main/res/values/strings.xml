@@ -14,4 +14,7 @@
     <string name="dialog_ok">确定</string>
     <string name="dialog_cancel">取消</string>
 
+    <string name="diary_empty">还没有日记噢</string>
+    <string name="moment_empty">还没有纪念日噢</string>
+    <string name="has_no_more">已无更多</string>
     </resources>
