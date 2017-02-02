@@ -41,7 +41,7 @@ public interface DiaryDemoService {
                                                   @Part(Constant.KEY_PICTURE) RequestBody picture);
     @FormUrlEncoded
     @POST("updateDiary")
-    Call<ListResponse<Diary>> uppdateDiaryWithoutPicture(@FieldMap Map<String, String> options);
+    Call<ListResponse<Diary>> updateDiaryWithoutPicture(@FieldMap Map<String, String> options);
 
     @FormUrlEncoded
     @Multipart

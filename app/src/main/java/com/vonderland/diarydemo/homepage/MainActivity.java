@@ -2,8 +2,8 @@ package com.vonderland.diarydemo.homepage;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,24 +16,25 @@ import android.view.MenuItem;
 
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.adapter.HomePagerAdapter;
+import com.vonderland.diarydemo.bean.DiaryCallModel;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.network.DiaryDemoService;
 import com.vonderland.diarydemo.network.ServiceGenerator;
+import com.vonderland.diarydemo.utils.L;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "VonderlandMainActivity";
+    private static final String TAG = "DebugMainActivity";
     private HomePagerAdapter adapter;
     private TabLayout tabLayout;
 
@@ -49,9 +50,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//                executeCall();
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 
@@ -65,43 +65,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-//    private void executeCall() {
-//        DiaryDemoService apiService = ServiceGenerator.createService(DiaryDemoService.class);
-//        //Call<ListResponse<Diary>> call = apiService.loadAllDiaries();
-//        Map<String, String> options = new HashMap<>();
-//        Call<ListResponse<Diary>> call = apiService.loadDiaries(options);
-//        options.put(Constant.KEY_DESCRIPTION, "来自变成猫的 android");
-//        options.put(Constant.KEY_EVENT_TIME, System.currentTimeMillis()+ "");
-//        options.put(Constant.KEY_TITLE, "android 无图测试修改");
-//        options.put(Constant.KEY_ID, "14");
-//        Call<ListResponse<Diary>> call = apiService.deleteDiary(14);
-//        call.enqueue(new Callback<ListResponse<Diary>>() {
-//            @Override
-//            public void onResponse(Call<ListResponse<Diary>> call, Response<ListResponse<Diary>> response) {
-//                if (response.isSuccessful()) {
-//                    if (response.body() instanceof ListResponse) {
-//                        ListResponse resp = (ListResponse)response.body();
-//                        List<Diary> data = (List<Diary>)resp.getData();
-//                        Log.d(TAG, "status code = " + resp.getCode());
-//                        Log.d(TAG, "size = " + resp.getSize());
-//                        if (data != null) {
-//                            Log.d(TAG, "list size = " + data.size());
-//                            Diary diary = data.get(0);
-//                            Log.d(TAG, diary.getTitle() + diary.getDescription());
-//                        }
-//                    }
-//                } else {
-//                    Log.d("Vonderland", "onresponse, failure");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ListResponse<Diary>> call, Throwable t) {
-//                Log.d("", "onFailure");
-//            }
-//        });
-//    }
-    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
