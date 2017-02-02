@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
@@ -75,7 +77,11 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (TextUtils.isEmpty(diary.getUrl())) {
                 ((DiaryViewHolder) holder).picture.setVisibility(View.GONE);
             } else {
-                // TODO: 引入 picasso
+                Glide.with(context)
+                        .load(diary.getUrl())
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(((DiaryViewHolder) holder).picture);
             }
             ((DiaryViewHolder) holder).title.setText(diary.getTitle());
             ((DiaryViewHolder) holder).description.setText(diary.getDescription());
