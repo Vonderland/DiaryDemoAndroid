@@ -41,7 +41,7 @@
             android:layout_marginBottom="15dp"
             android:background="@drawable/moment_bg">
         <TextView
-            android:id="@+id/moment_comment_content"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

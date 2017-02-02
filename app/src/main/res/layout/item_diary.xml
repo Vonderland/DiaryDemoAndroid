@@ -23,7 +23,7 @@
         <ImageView
             android:layout_width="85dp"
             android:layout_height="85dp"
-            android:id="@+id/imageViewCover"
+            android:id="@+id/picture"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"/>
         <LinearLayout
@@ -55,6 +55,7 @@
                 android:textColor="@color/secondaryText"
                 android:lineSpacingMultiplier="1.1"/>
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
