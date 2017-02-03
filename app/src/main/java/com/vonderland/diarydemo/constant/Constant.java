@@ -14,6 +14,10 @@ public class Constant {
     public static final String KEY_PICTURE = "picture";
     public static final String KEY_ID = "id";
     public static final String KEY_LOCATION = "locatian";
+    public static final String KEY_TIME_CURSOR = "timeCursor";
+    public static final String KEY_PAGE_SIZE = "size";
+
+    public static final int PAGE_SIZE = 20;
 
 
 }

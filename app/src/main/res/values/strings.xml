@@ -17,4 +17,8 @@
     <string name="diary_empty">还没有日记噢</string>
     <string name="moment_empty">还没有纪念日噢</string>
     <string name="has_no_more">已无更多</string>
+
+    <string name="network_error">咦，网络似乎出现问题了</string>
+    <string name="diary">日记</string>
+    <string name="moment">纪念日</string>
     </resources>

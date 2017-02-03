@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,36 +17,51 @@ import android.view.MenuItem;
 
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.adapter.HomePagerAdapter;
-import com.vonderland.diarydemo.bean.DiaryCallModel;
-import com.vonderland.diarydemo.bean.Diary;
-import com.vonderland.diarydemo.bean.ListResponse;
-import com.vonderland.diarydemo.constant.Constant;
-import com.vonderland.diarydemo.network.BaseResponseHandler;
-import com.vonderland.diarydemo.network.DiaryDemoService;
-import com.vonderland.diarydemo.network.ServiceGenerator;
+
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "DebugMainActivity";
+
     private HomePagerAdapter adapter;
+    private DiaryFragment diaryFragment;
+    private MomentFragment momentFragment;
     private TabLayout tabLayout;
+
+    private DiaryPresenter diaryPresenter;
+    private MomentPresenter momentPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initVariables();
+        initViews();
+    }
+
+    private void initVariables() {
+        diaryFragment = new DiaryFragment();
+        momentFragment = new MomentFragment();
+        diaryPresenter = new DiaryPresenter(diaryFragment);
+        momentPresenter = new MomentPresenter(momentFragment);
+
+        adapter = new HomePagerAdapter(getSupportFragmentManager(), this, diaryFragment, momentFragment);
+    }
+
+    private void initViews() {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));
         setSupportActionBar(toolbar);
+
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(2);
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +69,6 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                L.d(TAG, DateTimeUtil.formatDate(System.currentTimeMillis()));
             }
         });
 
@@ -79,30 +94,21 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_settings) {
@@ -110,7 +116,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_about) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

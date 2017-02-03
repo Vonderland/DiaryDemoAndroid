@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vonderland.diarydemo.R;
@@ -22,6 +23,9 @@ public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
     private LayoutInflater inflater;
     private List<Moment> data;
+
+    private DiaryAdapter.OnRecyclerViewOnClickListener onClickListener;
+    private DiaryAdapter.OnRecyclerViewOnLongClickListener onLongClickListener;
 
     private static final int VIEW_TYPE_MOMENT = 1;
     private static final int VIEW_TYPE_LOADING = 2;
@@ -54,7 +58,7 @@ public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_MOMENT:
-                return new MomentViewHolder(inflater.inflate(R.layout.item_moment, parent, false));
+                return new MomentViewHolder(inflater.inflate(R.layout.item_moment, parent, false), onClickListener, onLongClickListener);
             case VIEW_TYPE_EMPTY:
                 return new MomentEmptyViewHolder(inflater.inflate(R.layout.item_moment_empty, parent, false));
             case VIEW_TYPE_LOADING:
@@ -62,7 +66,7 @@ public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case VIEW_TYPE_NO_MORE:
                 return new NoMoreMomentViewHolder(inflater.inflate(R.layout.item_no_more, parent, false));
             default:
-                return new MomentViewHolder(inflater.inflate(R.layout.item_moment, parent, false));
+                return new MomentViewHolder(inflater.inflate(R.layout.item_moment, parent, false), onClickListener, onLongClickListener);
         }
     }
 
@@ -99,16 +103,49 @@ public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public static class MomentViewHolder extends RecyclerView.ViewHolder {
+    public static class MomentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+        LinearLayout root;
         TextView title;
         TextView location;
         TextView date;
+        DiaryAdapter.OnRecyclerViewOnLongClickListener longClickListener;
+        DiaryAdapter.OnRecyclerViewOnClickListener clickListener;
 
-        public MomentViewHolder(View itemView) {
+        public MomentViewHolder(View itemView, DiaryAdapter.OnRecyclerViewOnClickListener clickListener,
+                                DiaryAdapter.OnRecyclerViewOnLongClickListener longClickListener) {
             super(itemView);
+            root = (LinearLayout) itemView.findViewById(R.id.bubble_ll);
             title = (TextView) itemView.findViewById(R.id.title);
-            location = (TextView) itemView.findViewById(R.id.description);
+            location = (TextView) itemView.findViewById(R.id.location);
             date = (TextView) itemView.findViewById(R.id.date);
+            this.clickListener = clickListener;
+            this.longClickListener = longClickListener;
+            root.setOnClickListener(this);
+            root.setOnLongClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (clickListener != null) {
+                clickListener.OnItemClick(v,getLayoutPosition());
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (longClickListener != null) {
+                longClickListener.OnItemLongClick(v,getLayoutPosition());
+            }
+            return true;
+        }
+    }
+
+    public void setOnLongClickListener(DiaryAdapter.OnRecyclerViewOnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
+
+
+    public void setOnClickListener(DiaryAdapter.OnRecyclerViewOnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 }
