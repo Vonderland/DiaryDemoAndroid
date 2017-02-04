@@ -41,7 +41,7 @@ public class MomentCallModel {
         executeCall(call, handler);
     }
 
-    public void deleteMoment(int id, BaseResponseHandler handler) {
+    public void deleteMoment(long id, BaseResponseHandler handler) {
         Call<ListResponse<Moment>> call = apiService.deleteMoment(id);
         executeCall(call, handler);
     }

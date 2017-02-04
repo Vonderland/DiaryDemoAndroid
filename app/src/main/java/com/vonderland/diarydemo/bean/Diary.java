@@ -1,5 +1,7 @@
 package com.vonderland.diarydemo.bean;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -8,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Vonderland on 2017/2/1.
  */
 
-public class Diary extends RealmObject {
+public class Diary extends RealmObject implements Serializable{
     @PrimaryKey
     private long id;
     private String title;

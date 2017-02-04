@@ -20,6 +20,8 @@ public interface HomePageContract {
         void showData(List data);
 
         void showError();
+
+        void showDeleteSuccessfully();
     }
 
     interface Presenter extends BasePresenter {
@@ -33,5 +35,9 @@ public interface HomePageContract {
         boolean hasMoreItems();
 
         void loadData(boolean isRefreshing);
+
+        void deleteData(int position);
+
+        void startDetail(int position);
     }
 }

@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.vonderland.diarydemo.R;
-import com.vonderland.diarydemo.constant.Constant;
-
 
 /**
  * Created by Vonderland on 2017/2/3.
@@ -65,7 +63,7 @@ abstract public class BaseHomePageFragment extends Fragment implements HomePageC
                     int total = recyclerView.getLayoutManager().getItemCount();
                     int lastVisibleIndex = layoutManager.findLastVisibleItemPosition();
                     if (!presenter.isLoadingMore() && presenter.hasMoreItems() &&
-                            total >= Constant.PAGE_SIZE && total <= lastVisibleIndex + 1) {
+                            /*total >= Constant.PAGE_SIZE && */total <= lastVisibleIndex + 1) {
                         presenter.loadMore();
                     }
                 }

@@ -54,7 +54,7 @@ public class DiaryCallModel {
         executeCall(call, handler);
     }
 
-    public void deleteDiary(int id, BaseResponseHandler handler) {
+    public void deleteDiary(long id, BaseResponseHandler handler) {
         Call<ListResponse<Diary>> call = apiService.deleteDiary(id);
         executeCall(call, handler);
     }

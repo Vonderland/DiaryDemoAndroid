@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity
     private void initVariables() {
         diaryFragment = new DiaryFragment();
         momentFragment = new MomentFragment();
-        diaryPresenter = new DiaryPresenter(diaryFragment);
-        momentPresenter = new MomentPresenter(momentFragment);
+        diaryPresenter = new DiaryPresenter(this, diaryFragment);
+        momentPresenter = new MomentPresenter(this, momentFragment);
 
         adapter = new HomePagerAdapter(getSupportFragmentManager(), this, diaryFragment, momentFragment);
     }

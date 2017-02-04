@@ -1,9 +1,13 @@
 package com.vonderland.diarydemo.homepage;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.DiaryCallModel;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.detailpage.DetailActivity;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.utils.L;
 
@@ -18,6 +22,7 @@ import java.util.Map;
 
 public class DiaryPresenter implements HomePageContract.Presenter {
 
+    private Context context;
     private boolean isLoadingMore = false;
     private boolean hasMoreItems = true;
     private HomePageContract.View view;
@@ -28,9 +33,11 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     private Diary noMore;
     private long timeCursor;
 
-    public DiaryPresenter (HomePageContract.View view) {
+    public DiaryPresenter (Context context, HomePageContract.View view) {
         this.view = view;
         this.view.setPresenter(this);
+        this.context = context;
+
         model = new DiaryCallModel();
         data = new ArrayList<>();
 
@@ -129,5 +136,30 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     @Override
     public void start() {
         refresh();
+    }
+
+    @Override
+    public void deleteData(int position) {
+        model.deleteDiary(data.get(position).getId(), new BaseResponseHandler<ListResponse<Diary>>() {
+
+            @Override
+            public void onSuccess(ListResponse<Diary> body) {
+                view.showDeleteSuccessfully();
+            }
+
+            @Override
+            public void onError(int statusCode) {
+                view.showError();
+            }
+        });
+        data.remove(position);
+    }
+
+    @Override
+    public void startDetail(int position) {
+        Diary diary = data.get(position);
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra("data", diary);
+        context.startActivity(intent);
     }
 }

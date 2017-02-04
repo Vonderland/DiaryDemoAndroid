@@ -1,9 +1,14 @@
 package com.vonderland.diarydemo.homepage;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.bean.Moment;
 import com.vonderland.diarydemo.bean.MomentCallModel;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.detailpage.DetailActivity;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 
 import java.util.ArrayList;
@@ -16,6 +21,8 @@ import java.util.Map;
  */
 
 public class MomentPresenter implements HomePageContract.Presenter {
+
+    private Context context;
     private boolean isLoadingMore = false;
     private boolean hasMoreItems = true;
     private HomePageContract.View view;
@@ -26,9 +33,11 @@ public class MomentPresenter implements HomePageContract.Presenter {
     private Moment noMore;
     private long timeCursor;
 
-    public MomentPresenter(HomePageContract.View view) {
+    public MomentPresenter(Context context, HomePageContract.View view) {
         this.view = view;
         this.view.setPresenter(this);
+        this.context = context;
+
         model = new MomentCallModel();
         data = new ArrayList<>();
 
@@ -126,5 +135,30 @@ public class MomentPresenter implements HomePageContract.Presenter {
                 view.showError();
             }
         });
+    }
+
+    @Override
+    public void deleteData(int position) {
+        model.deleteMoment(data.get(position).getId(), new BaseResponseHandler<ListResponse<Diary>>() {
+
+            @Override
+            public void onSuccess(ListResponse<Diary> body) {
+                view.showDeleteSuccessfully();
+            }
+
+            @Override
+            public void onError(int statusCode) {
+                view.showError();
+            }
+        });
+        data.remove(position);
+    }
+
+    @Override
+    public void startDetail(int position) {
+        Moment moment = data.get(position);
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra("data", moment);
+        context.startActivity(intent);
     }
 }
