@@ -27,4 +27,6 @@
 
     <string name="created_at">创建于</string>
     <string name="edited_at">编辑于</string>
+
+    <string name="please_choose_time">请选择时间...</string>
 </resources>

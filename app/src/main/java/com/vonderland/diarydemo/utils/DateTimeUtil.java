@@ -1,12 +1,10 @@
 package com.vonderland.diarydemo.utils;
 
-import android.text.format.DateUtils;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by Vonderland on 2017/2/2.
@@ -25,5 +23,23 @@ public class DateTimeUtil {
         String localPubDateString = localDateFormat.format(pubDate);
 
         return localPubDateString;
+    }
+
+    public static int getYear(long pubTimeMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(pubTimeMillis);
+        return calendar.get(Calendar.YEAR);
+    }
+
+    public static int getMonth(long pubTimeMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(pubTimeMillis);
+        return calendar.get(Calendar.MONTH);
+    }
+
+    public static int getDay(long pubTimeMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(pubTimeMillis);
+        return calendar.get(Calendar.DATE);
     }
 }

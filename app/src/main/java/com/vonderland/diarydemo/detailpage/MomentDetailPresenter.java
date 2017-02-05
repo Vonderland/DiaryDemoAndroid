@@ -6,7 +6,7 @@ package com.vonderland.diarydemo.detailpage;
 
 public class MomentDetailPresenter implements DetailPageContract.Presenter {
     @Override
-    public void startEdit(Object data) {
+    public void startEdit() {
 
     }
 

@@ -1,6 +1,7 @@
 package com.vonderland.diarydemo.detailpage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -22,6 +23,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.editpage.EditActivity;
+import com.vonderland.diarydemo.homepage.MainActivity;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 
 /**
@@ -116,7 +119,7 @@ public class DiaryDetailFragment extends Fragment implements DetailPageContract.
         if (id == android.R.id.home) {
             getActivity().onBackPressed();
         } else if (id == R.id.action_edit) {
-            Toast.makeText(context, "编辑日记", Toast.LENGTH_SHORT).show();
+            presenter.startEdit();
         }
         return true;
     }

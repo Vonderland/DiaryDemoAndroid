@@ -27,7 +27,9 @@
             android:name=".detailpage.DetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".editpage.EditActivity"></activity>
+        <activity android:name=".editpage.EditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@ public interface DetailPageContract {
 
     interface Presenter extends BasePresenter {
 
-        void startEdit(Object data);
+        void startEdit();
 
         void setData(Object data);
     }
