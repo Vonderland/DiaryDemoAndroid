@@ -1,7 +1,5 @@
 package com.vonderland.diarydemo.bean;
 
-import android.support.annotation.Nullable;
-
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.network.DiaryDemoService;
 import com.vonderland.diarydemo.network.ServiceGenerator;
@@ -22,25 +20,15 @@ public class DiaryCallModel {
         apiService = ServiceGenerator.createService(DiaryDemoService.class);
     }
 
-    public void addDiary(Map<String, String> options, @Nullable RequestBody picture,
-                         BaseResponseHandler handler) {
+    public void addDiary(RequestBody body, BaseResponseHandler handler) {
         Call<ListResponse<Diary>> call;
-        if (picture == null) {
-            call = apiService.addDiaryWithoutPicture(options);
-        } else {
-            call = apiService.addDiaryWithPicture(options, picture);
-        }
+        call = apiService.addDiary(body);
         executeCall(call, handler);
     }
 
-    public void updateDiary(Map<String, String> options, @Nullable RequestBody picture,
-    BaseResponseHandler handler) {
+    public void updateDiary(RequestBody body, BaseResponseHandler handler) {
         Call<ListResponse<Diary>> call;
-        if (picture == null) {
-            call = apiService.updateDiaryWithoutPicture(options);
-        } else {
-            call = apiService.updateDiaryWithPicture(options, picture);
-        }
+        call = apiService.updateDiary(body);
         executeCall(call, handler);
     }
 

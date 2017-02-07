@@ -84,6 +84,7 @@ android:fitsSystemWindows="true">
                     android:layout_marginLeft="10dp"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/add_picture"/>
                 <ImageView
                     android:id="@+id/delete_pic"

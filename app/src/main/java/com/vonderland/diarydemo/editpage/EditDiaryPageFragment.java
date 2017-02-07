@@ -1,6 +1,8 @@
 package com.vonderland.diarydemo.editpage;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -26,9 +28,13 @@ import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.detailpage.DetailActivity;
 import com.vonderland.diarydemo.detailpage.DetailPageContract;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
+import com.vonderland.diarydemo.utils.L;
+import com.vonderland.diarydemo.utils.PictureUtil;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Vonderland on 2017/2/4.
@@ -51,6 +57,9 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
     private int mYear = Calendar.getInstance().get(Calendar.YEAR);
     private int mMonth = Calendar.getInstance().get(Calendar.MONTH);
     private int mDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+    public final static int REQUEST_IMAGE = 1;
+    private Uri outputFileUri;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +98,10 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "更换图片", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "更换图片", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_IMAGE);
             }
         });
 
@@ -103,6 +115,20 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE) {
+            outputFileUri = data.getData();
+            filePath = PictureUtil.getRealPathFromURI(getActivity(), outputFileUri);
+
+            picture.setImageBitmap(PictureUtil
+                    .getSmallBitmap(filePath, 150, 150));
+            change = 1;
+            L.d("vonderlanddebug", filePath);
+            deletePicBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

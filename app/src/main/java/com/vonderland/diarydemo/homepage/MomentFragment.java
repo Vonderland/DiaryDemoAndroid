@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.adapter.DiaryAdapter;
 import com.vonderland.diarydemo.adapter.MomentAdapter;
-import com.vonderland.diarydemo.utils.SnackbarUtil;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class MomentFragment extends BaseHomePageFragment {
 
     @Override
     public void showDeleteSuccessfully() {
-        Toast.makeText(getActivity(), R.string.delete_diary_successfully, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.delete_moment_successfully, Toast.LENGTH_SHORT).show();
     }
 
     @Override
