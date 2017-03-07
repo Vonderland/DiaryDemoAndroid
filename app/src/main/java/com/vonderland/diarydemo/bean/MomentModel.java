@@ -46,6 +46,7 @@ public class MomentModel {
     }
 
     public void deleteMoment(long id, BaseResponseHandler handler) {
+        deleteMomentInRealm(id);
         Call<ListResponse<Moment>> call = apiService.deleteMoment(id);
         executeCall(call, handler);
     }
@@ -69,6 +70,15 @@ public class MomentModel {
     public void deleteMomentInRealm() {
         realm.beginTransaction();
         realm.where(Moment.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
+
+    public void deleteMomentInRealm(long id) {
+        realm.beginTransaction();
+        realm.where(Moment.class)
+                .equalTo("id", id)
+                .findAll()
+                .deleteAllFromRealm();
         realm.commitTransaction();
     }
 }

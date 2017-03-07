@@ -47,6 +47,7 @@ public class DiaryModel {
     }
 
     public void deleteDiary(long id, BaseResponseHandler handler) {
+        deleteDiaryInRealm(id);
         Call<ListResponse<Diary>> call = apiService.deleteDiary(id);
         executeCall(call, handler);
     }
@@ -70,6 +71,15 @@ public class DiaryModel {
     public void deleteDiariesInRealm() {
         realm.beginTransaction();
         realm.where(Diary.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
+
+    public void deleteDiaryInRealm(long id) {
+        realm.beginTransaction();
+        realm.where(Diary.class)
+                .equalTo("id", id)
+                .findAll()
+                .deleteAllFromRealm();
         realm.commitTransaction();
     }
 }
