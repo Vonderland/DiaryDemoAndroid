@@ -27,6 +27,7 @@ import retrofit2.http.QueryMap;
  */
 
 public interface DiaryDemoService {
+
     @GET("allDiaries")
     Call<ListResponse<Diary>> loadAllDiaries();
 
@@ -51,13 +52,12 @@ public interface DiaryDemoService {
     Call<ListResponse<Moment>> loadMoment(@QueryMap Map<String, String> options);
 
     @FormUrlEncoded
-    @Multipart
     @POST("addMoment")
     Call<ListResponse<Moment>> addMoment(@FieldMap Map<String, String> options);
 
     @FormUrlEncoded
     @POST("updateMoment")
-    Call<ListResponse<Moment>> uppdateMoment(@FieldMap Map<String, String> options);
+    Call<ListResponse<Moment>> updateMoment(@FieldMap Map<String, String> options);
 
     @FormUrlEncoded
     @POST("deleteMoment")

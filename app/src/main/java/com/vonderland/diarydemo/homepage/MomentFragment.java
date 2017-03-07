@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.adapter.DiaryAdapter;
 import com.vonderland.diarydemo.adapter.MomentAdapter;
@@ -31,8 +32,27 @@ public class MomentFragment extends BaseHomePageFragment {
             momentAdapter = new MomentAdapter(getActivity(), data);
             momentAdapter.setOnClickListener(new DiaryAdapter.OnRecyclerViewOnClickListener() {
                 @Override
-                public void OnItemClick(View v, int position) {
-                    presenter.startDetail(position);
+                public void OnItemClick(View v, final int position) {
+                    new MaterialDialog.Builder(getActivity())
+                            .items(R.array.moment_click_items)
+//                            .contentColor(getResources().getColor(R.color.colorPrimary))
+                            .itemsCallback(new MaterialDialog.ListCallback() {
+                                @Override
+                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                    switch (which) {
+                                        case 0:
+                                            presenter.startDetail(position);
+                                            break;
+                                        case 1:
+                                            dialog.dismiss();
+                                            showRemoveDialog(position);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            })
+                            .show();
                 }
             });
             momentAdapter.setOnLongClickListener(new DiaryAdapter.OnRecyclerViewOnLongClickListener() {

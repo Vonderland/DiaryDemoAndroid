@@ -30,6 +30,7 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
     private Diary data;
 
     public EditDiaryPagePresenter(Context context, EditDiaryPageContract.View view) {
+
         this.context = context;
         this.view = view;
         this.view.setPresenter(this);
@@ -39,6 +40,7 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
 
     @Override
     public void postData(String title, long date, String description, String filePath, int change) {
+
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         builder.addFormDataPart(Constant.KEY_TITLE, title)
                 .addFormDataPart(Constant.KEY_EVENT_TIME, date + "")
@@ -88,7 +90,6 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
                 }
             });
         }
-
     }
 
     @Override

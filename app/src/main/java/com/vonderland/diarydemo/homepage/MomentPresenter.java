@@ -9,6 +9,7 @@ import com.vonderland.diarydemo.bean.Moment;
 import com.vonderland.diarydemo.bean.MomentCallModel;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.detailpage.DetailActivity;
+import com.vonderland.diarydemo.editpage.EditActivity;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 
 import java.util.ArrayList;
@@ -157,7 +158,8 @@ public class MomentPresenter implements HomePageContract.Presenter {
     @Override
     public void startDetail(int position) {
         Moment moment = data.get(position);
-        Intent intent = new Intent(context, DetailActivity.class);
+        Intent intent = new Intent(context, EditActivity.class);
+        intent.putExtra(Constant.KEY_EDIT_FROM, Constant.MOMENT_FROM_EDIT);
         intent.putExtra("data", moment);
         context.startActivity(intent);
     }

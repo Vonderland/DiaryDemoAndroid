@@ -74,6 +74,10 @@ public class MainActivity extends AppCompatActivity
                     Intent intent = new Intent(MainActivity.this, EditActivity.class);
                     intent.putExtra(Constant.KEY_EDIT_FROM, Constant.DIARY_FROM_CREATE);
                     startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                    intent.putExtra(Constant.KEY_EDIT_FROM, Constant.MOMENT_FROM_CREATE);
+                    startActivity(intent);
                 }
             }
         });

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +25,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.constant.Constant;
-import com.vonderland.diarydemo.detailpage.DetailActivity;
-import com.vonderland.diarydemo.detailpage.DetailPageContract;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
 import com.vonderland.diarydemo.utils.PictureUtil;
@@ -46,7 +44,7 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
     private Context context;
     private ImageView picture;
     private EditText title;
-    private ImageView calendarBtn;
+    private LinearLayout calendarBtn;
     private TextView date;
     private EditText description;
     private ImageView deletePicBtn;
@@ -81,7 +79,7 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
 
         picture = (ImageView) view.findViewById(R.id.edit_diary_picture);
         deletePicBtn = (ImageView) view.findViewById(R.id.delete_pic);
-        calendarBtn = (ImageView) view.findViewById(R.id.calendar);
+        calendarBtn = (LinearLayout) view.findViewById(R.id.calendar);
         title = (EditText) view.findViewById(R.id.edit_diary_title);
         date = (TextView) view.findViewById(R.id.date);
         description = (EditText) view.findViewById(R.id.edit_diary_content);
@@ -211,7 +209,6 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
         if (id == android.R.id.home) {
             getActivity().onBackPressed();
         } else if (id == R.id.action_edit) {
-//            Toast.makeText(getActivity(), "提交日记", Toast.LENGTH_SHORT).show();
             String diaryTitle = title.getText().toString();
             String diaryDescription = description.getText().toString();
             Calendar now = Calendar.getInstance();

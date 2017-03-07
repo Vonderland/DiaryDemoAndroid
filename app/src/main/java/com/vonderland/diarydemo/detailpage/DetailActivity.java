@@ -23,15 +23,7 @@ public class DetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, (DiaryDetailFragment)fragment)
                     .commit();
-        } else {
-            //TODO: moment
-//            fragment = new DiaryDetailFragment();
-//            presenter = new DiaryDetailPresenter(this, fragment);
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.container, (DiaryDetailFragment)fragment)
-//                    .commit();
         }
-
     }
 
 }

@@ -27,7 +27,7 @@ public class MomentCallModel {
 
     public void updateMoment(Map<String, String> options, BaseResponseHandler handler) {
         Call<ListResponse<Moment>> call;
-        call = apiService.uppdateMoment(options);
+        call = apiService.updateMoment(options);
         executeCall(call, handler);
     }
 
