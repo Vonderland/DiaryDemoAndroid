@@ -56,7 +56,9 @@ public class DiaryModel {
     }
 
     public List<Diary> getAllDiariesFromRealm() {
-        return realm.where(Diary.class).findAll();
+        List<Diary> result;
+        result = realm.copyFromRealm(realm.where(Diary.class).findAll());
+        return result;
     }
 
     public void insertDiariesToRealm(List<Diary> data) {

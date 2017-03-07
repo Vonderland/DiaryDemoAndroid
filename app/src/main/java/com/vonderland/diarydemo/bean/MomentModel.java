@@ -55,7 +55,9 @@ public class MomentModel {
     }
 
     public List<Moment> getAllMomentFromRealm() {
-        return realm.where(Moment.class).findAll();
+        List<Moment> result;
+        result = realm.copyFromRealm(realm.where(Moment.class).findAll());
+        return result;
     }
 
     public void insertMomentToRealm(List<Moment> data) {
