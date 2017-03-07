@@ -4,8 +4,10 @@ import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.network.DiaryDemoService;
 import com.vonderland.diarydemo.network.ServiceGenerator;
 
+import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
@@ -13,11 +15,13 @@ import retrofit2.Call;
  * Created by Vonderland on 2017/2/2.
  */
 
-public class DiaryCallModel {
+public class DiaryModel {
     private DiaryDemoService apiService;
+    private Realm realm;
 
-    public DiaryCallModel() {
+    public DiaryModel() {
         apiService = ServiceGenerator.createService(DiaryDemoService.class);
+        realm = Realm.getDefaultInstance();
     }
 
     public void addDiary(RequestBody body, BaseResponseHandler handler) {
@@ -49,5 +53,21 @@ public class DiaryCallModel {
 
     private void executeCall(Call call, BaseResponseHandler handler) {
         call.enqueue(handler);
+    }
+
+    public List<Diary> getAllDiariesFromRealm() {
+        return realm.where(Diary.class).findAll();
+    }
+
+    public void insertDiariesToRealm(List<Diary> data) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(data);
+        realm.commitTransaction();
+    }
+
+    public void deleteDiariesInRealm() {
+        realm.beginTransaction();
+        realm.where(Diary.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
     }
 }

@@ -6,9 +6,8 @@ import android.content.Intent;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.bean.Moment;
-import com.vonderland.diarydemo.bean.MomentCallModel;
+import com.vonderland.diarydemo.bean.MomentModel;
 import com.vonderland.diarydemo.constant.Constant;
-import com.vonderland.diarydemo.detailpage.DetailActivity;
 import com.vonderland.diarydemo.editpage.EditActivity;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 
@@ -27,7 +26,7 @@ public class MomentPresenter implements HomePageContract.Presenter {
     private boolean isLoadingMore = false;
     private boolean hasMoreItems = true;
     private HomePageContract.View view;
-    private MomentCallModel model;
+    private MomentModel model;
     private List<Moment> data;
     private Moment footer;
     private Moment empty;
@@ -39,7 +38,7 @@ public class MomentPresenter implements HomePageContract.Presenter {
         this.view.setPresenter(this);
         this.context = context;
 
-        model = new MomentCallModel();
+        model = new MomentModel();
         data = new ArrayList<>();
 
         footer = new Moment();
@@ -88,12 +87,21 @@ public class MomentPresenter implements HomePageContract.Presenter {
         if (!isRefreshing) {
             options.put(Constant.KEY_TIME_CURSOR, timeCursor + "");
         }
+        if (isRefreshing && data.size() == 0) {
+            data.addAll(model.getAllMomentFromRealm());
+            if (data.size() == 0) {
+                data.add(empty);
+            }
+            view.showData(data);
+        }
         model.loadMoment(options, new BaseResponseHandler<ListResponse<Moment>>() {
             @Override
             public void onSuccess(ListResponse<Moment> body) {
                 if (isRefreshing) {
                     data.clear();
                     data.addAll(body.getData());
+                    model.deleteMomentInRealm();
+                    model.insertMomentToRealm(body.getData());
                     int bodySize = body.getData().size();
                     if (data.size() == 0) {
                         data.add(empty);
@@ -110,6 +118,7 @@ public class MomentPresenter implements HomePageContract.Presenter {
                         data.remove(data.size() - 1);
                     }
                     data.addAll(body.getData());
+                    model.insertMomentToRealm(body.getData());
                     int bodySize = body.getData().size();
                     if (bodySize < Constant.PAGE_SIZE) {
                         hasMoreItems = false;

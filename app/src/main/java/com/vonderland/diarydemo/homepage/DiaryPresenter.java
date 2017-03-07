@@ -2,9 +2,10 @@ package com.vonderland.diarydemo.homepage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.vonderland.diarydemo.bean.Diary;
-import com.vonderland.diarydemo.bean.DiaryCallModel;
+import com.vonderland.diarydemo.bean.DiaryModel;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.detailpage.DetailActivity;
@@ -26,7 +27,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     private boolean isLoadingMore = false;
     private boolean hasMoreItems = true;
     private HomePageContract.View view;
-    private DiaryCallModel model;
+    private DiaryModel model;
     private List<Diary> data;
     private Diary footer;
     private Diary empty;
@@ -38,7 +39,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
         this.view.setPresenter(this);
         this.context = context;
 
-        model = new DiaryCallModel();
+        model = new DiaryModel();
         data = new ArrayList<>();
 
         footer = new Diary();
@@ -73,12 +74,21 @@ public class DiaryPresenter implements HomePageContract.Presenter {
         if (!isRefreshing) {
             options.put(Constant.KEY_TIME_CURSOR, timeCursor + "");
         }
+        if (isRefreshing && data.size() == 0) {
+            data.addAll(model.getAllDiariesFromRealm());
+            if (data.size() == 0) {
+                data.add(empty);
+            }
+            view.showData(data);
+        }
         model.loadDiaries(options, new BaseResponseHandler<ListResponse<Diary>>() {
             @Override
             public void onSuccess(ListResponse<Diary> body) {
                 if (isRefreshing) {
                     data.clear();
                     data.addAll(body.getData());
+                    model.deleteDiariesInRealm();
+                    model.insertDiariesToRealm(body.getData());
                     int bodySize = body.getData().size();
                     if (data.size() == 0) {
                         data.add(empty);
@@ -95,6 +105,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
                         data.remove(data.size() - 1);
                     }
                     data.addAll(body.getData());
+                    model.insertDiariesToRealm(body.getData());
                     int bodySize = body.getData().size();
                     if (bodySize < Constant.PAGE_SIZE) {
                         hasMoreItems = false;

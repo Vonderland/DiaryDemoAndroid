@@ -4,19 +4,23 @@ import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.network.DiaryDemoService;
 import com.vonderland.diarydemo.network.ServiceGenerator;
 
+import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
 import retrofit2.Call;
 
 /**
  * Created by Vonderland on 2017/2/2.
  */
 
-public class MomentCallModel {
+public class MomentModel {
     private DiaryDemoService apiService;
+    private Realm realm;
 
-    public MomentCallModel() {
+    public MomentModel() {
         apiService = ServiceGenerator.createService(DiaryDemoService.class);
+        realm = Realm.getDefaultInstance();
     }
 
     public void addMoment(Map<String, String> options, BaseResponseHandler handler) {
@@ -48,5 +52,21 @@ public class MomentCallModel {
 
     private void executeCall(Call call, BaseResponseHandler handler) {
         call.enqueue(handler);
+    }
+
+    public List<Moment> getAllMomentFromRealm() {
+        return realm.where(Moment.class).findAll();
+    }
+
+    public void insertMomentToRealm(List<Moment> data) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(data);
+        realm.commitTransaction();
+    }
+
+    public void deleteMomentInRealm() {
+        realm.beginTransaction();
+        realm.where(Moment.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
     }
 }

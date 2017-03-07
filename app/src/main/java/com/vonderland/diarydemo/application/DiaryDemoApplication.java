@@ -16,7 +16,6 @@ public class DiaryDemoApplication extends Application {
         super.onCreate();
         context = this.getApplicationContext();
         Realm.init(this);
-
     }
 
     /**

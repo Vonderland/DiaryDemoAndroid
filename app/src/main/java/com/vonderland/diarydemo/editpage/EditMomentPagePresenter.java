@@ -4,10 +4,9 @@ import android.content.Context;
 
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.bean.Moment;
-import com.vonderland.diarydemo.bean.MomentCallModel;
+import com.vonderland.diarydemo.bean.MomentModel;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
-import com.vonderland.diarydemo.utils.L;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +19,7 @@ public class EditMomentPagePresenter implements EditMomentPageContract.Presenter
 
     private Context context;
     private EditMomentPageContract.View view;
-    private MomentCallModel model;
+    private MomentModel model;
     private Moment data;
 
     public EditMomentPagePresenter(Context context, EditMomentPageContract.View view) {
@@ -29,7 +28,7 @@ public class EditMomentPagePresenter implements EditMomentPageContract.Presenter
         this.view = view;
         this.view.setPresenter(this);
 
-        model = new MomentCallModel();
+        model = new MomentModel();
     }
     @Override
     public void postData(String title, long date, String location) {

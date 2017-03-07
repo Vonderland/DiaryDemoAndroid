@@ -4,15 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.vonderland.diarydemo.bean.Diary;
-import com.vonderland.diarydemo.bean.DiaryCallModel;
+import com.vonderland.diarydemo.bean.DiaryModel;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.utils.PictureUtil;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -26,7 +24,7 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
 
     private Context context;
     private EditDiaryPageContract.View view;
-    private DiaryCallModel model;
+    private DiaryModel model;
     private Diary data;
 
     public EditDiaryPagePresenter(Context context, EditDiaryPageContract.View view) {
@@ -35,7 +33,7 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
         this.view = view;
         this.view.setPresenter(this);
 
-        model = new DiaryCallModel();
+        model = new DiaryModel();
     }
 
     @Override
