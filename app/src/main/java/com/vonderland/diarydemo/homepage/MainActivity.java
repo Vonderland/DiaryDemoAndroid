@@ -1,11 +1,16 @@
 package com.vonderland.diarydemo.homepage;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,10 +20,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.adapter.HomePagerAdapter;
 
+import com.vonderland.diarydemo.bean.Diary;
+import com.vonderland.diarydemo.bean.Moment;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.editpage.EditActivity;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
@@ -38,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     private DiaryPresenter diaryPresenter;
     private MomentPresenter momentPresenter;
 
+    private long lastBackPressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +62,11 @@ public class MainActivity extends AppCompatActivity
         momentPresenter = new MomentPresenter(this, momentFragment);
 
         adapter = new HomePagerAdapter(getSupportFragmentManager(), this, diaryFragment, momentFragment);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constant.ACTION_DIARY_CHANGE);
+        intentFilter.addAction(Constant.ACTION_MOMENT_CHANGE);
+        registerReceiver(receiver, intentFilter);
     }
 
     private void initViews() {
@@ -98,7 +113,12 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (java.util.Calendar.getInstance().getTimeInMillis() - lastBackPressed > 1000) {
+                lastBackPressed = java.util.Calendar.getInstance().getTimeInMillis();
+                Toast.makeText(this, R.string.click_again_to_exit, Toast.LENGTH_SHORT).show();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -130,4 +150,21 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (TextUtils.equals(intent.getAction(), Constant.ACTION_DIARY_CHANGE)) {
+                Object data = intent.getSerializableExtra(Constant.DIARY_FROM_BROADCAST);
+                if (data != null && data instanceof Diary) {
+                    diaryPresenter.onDataChange(data);
+                }
+            } else if (TextUtils.equals(intent.getAction(), Constant.ACTION_MOMENT_CHANGE)) {
+                Object data = intent.getSerializableExtra(Constant.MOMENT_FROM_BROADCAST);
+                if (data != null && data instanceof Moment) {
+                    momentPresenter.onDataChange(data);
+                }
+            }
+        }
+    };
 }

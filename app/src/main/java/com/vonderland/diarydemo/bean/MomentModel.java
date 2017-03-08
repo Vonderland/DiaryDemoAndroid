@@ -4,6 +4,7 @@ import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.network.DiaryDemoService;
 import com.vonderland.diarydemo.network.ServiceGenerator;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +59,7 @@ public class MomentModel {
     public List<Moment> getAllMomentFromRealm() {
         List<Moment> result;
         result = realm.copyFromRealm(realm.where(Moment.class).findAll());
+        Collections.sort(result);
         return result;
     }
 
@@ -79,6 +81,18 @@ public class MomentModel {
                 .equalTo("id", id)
                 .findAll()
                 .deleteAllFromRealm();
+        realm.commitTransaction();
+    }
+
+    public void insertMomentToRealm(Moment moment) {
+        realm.beginTransaction();
+        realm.copyToRealm(moment);
+        realm.commitTransaction();
+    }
+
+    public void updateMomentInRealm(Moment moment) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(moment);
         realm.commitTransaction();
     }
 }

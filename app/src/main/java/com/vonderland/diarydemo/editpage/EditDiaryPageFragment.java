@@ -212,8 +212,8 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
             String diaryTitle = title.getText().toString();
             String diaryDescription = description.getText().toString();
             Calendar now = Calendar.getInstance();
-            now.set(mYear, mMonth, mDay);
-            Long eventTime = now.getTimeInMillis();
+            now.set(mYear, mMonth, mDay, 0, 0, 0);
+            Long eventTime = now.getTimeInMillis() / 1000 * 1000;
             if (TextUtils.isEmpty(diaryTitle)) {
                 Toast.makeText(context, "还没填写标题哦", Toast.LENGTH_SHORT).show();
             } else if (TextUtils.isEmpty(diaryDescription)) {

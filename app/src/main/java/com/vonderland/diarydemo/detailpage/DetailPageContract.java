@@ -18,5 +18,7 @@ public interface DetailPageContract {
         void startEdit();
 
         void setData(Object data);
+
+        void onDataChange(Object data);
     }
 }

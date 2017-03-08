@@ -18,7 +18,7 @@
     <string name="moment_empty">还没有纪念日噢</string>
     <string name="has_no_more">已无更多</string>
 
-    <string name="network_error">咦，网络似乎出现问题了</string>
+    <string name="network_error">啊噢，网络似乎出了点问题</string>
     <string name="diary">日记</string>
     <string name="moment">纪念日</string>
 
@@ -28,6 +28,8 @@
     <string name="created_at">创建于</string>
     <string name="edited_at">编辑于</string>
 
-    <string name="please_choose_time">请选择时间...</string>
-    <string name="please_choose_moment_time">请选择纪念日时间...</string>
+    <string name="please_choose_time">请选择时间&#8230;</string>
+    <string name="please_choose_moment_time">请选择纪念日时间&#8230;</string>
+
+    <string name="click_again_to_exit">再按一次退出应用</string>
 </resources>

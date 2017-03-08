@@ -39,5 +39,7 @@ public interface HomePageContract {
         void deleteData(int position);
 
         void startDetail(int position);
+
+        void onDataChange(Object data);
     }
 }

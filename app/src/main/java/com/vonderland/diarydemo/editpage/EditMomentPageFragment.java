@@ -144,8 +144,8 @@ public class EditMomentPageFragment  extends Fragment implements EditMomentPageC
             String momentTitle = title.getText().toString();
             String momentLocation = location.getText().toString();
             Calendar now = Calendar.getInstance();
-            now.set(mYear, mMonth, mDay);
-            Long eventTime = now.getTimeInMillis();
+            now.set(mYear, mMonth, mDay, 0, 0, 0);
+            Long eventTime = now.getTimeInMillis() / 1000 * 1000;
             if (TextUtils.isEmpty(momentTitle)) {
                 Toast.makeText(context, "还没填写标题哦", Toast.LENGTH_SHORT).show();
             } else if (TextUtils.equals(date.getText(), context.getResources().getString(R.string.please_choose_moment_time))) {

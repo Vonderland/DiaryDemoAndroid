@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Vonderland on 2017/2/1.
  */
 
-public class Moment extends RealmObject implements Serializable{
+public class Moment extends RealmObject implements Serializable, Comparable<Moment> {
     @PrimaryKey
     private long id;
     private String title;
@@ -27,6 +27,23 @@ public class Moment extends RealmObject implements Serializable{
     private boolean isEmptyView = false;
     @Ignore
     private boolean isNoMore = false;
+
+    @Override
+    public int compareTo(Moment o) {
+        if (this.eventTime != o.eventTime) {
+            if (this.eventTime > o.eventTime) {
+                return -1;
+            } else {
+                return 1;
+            }
+        } else {
+            if (this.updateTime > o.updateTime) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
 
     public long getId() {
         return id;

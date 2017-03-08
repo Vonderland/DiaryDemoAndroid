@@ -32,7 +32,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     private Diary footer;
     private Diary empty;
     private Diary noMore;
-    private long timeCursor;
+    private long timeCursor = 0;
 
     public DiaryPresenter (Context context, HomePageContract.View view) {
         this.view = view;
@@ -96,6 +96,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
                         hasMoreItems = false;
                         data.add(noMore);
                     } else {
+                        hasMoreItems = true;
                         timeCursor = body.getData().get(bodySize - 1).getEventTime();
                     }
                     view.showData(data);
@@ -172,5 +173,25 @@ public class DiaryPresenter implements HomePageContract.Presenter {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra("data", diary);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onDataChange(Object diary) {
+        data.clear();
+        List<Diary> realmResult = model.getAllDiariesFromRealm();
+
+        if (realmResult.size() == 0) {
+            data.add(empty);
+        } else {
+            if (realmResult.get(realmResult.size() - 1).getEventTime() < timeCursor && hasMoreItems) {
+                realmResult.remove(realmResult.size() - 1);
+            }
+            data.addAll(realmResult);
+        }
+
+        if (!hasMoreItems) {
+            data.add(noMore);
+        }
+        view.showData(data);
     }
 }

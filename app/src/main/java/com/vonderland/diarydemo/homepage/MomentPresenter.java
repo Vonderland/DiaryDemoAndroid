@@ -31,7 +31,7 @@ public class MomentPresenter implements HomePageContract.Presenter {
     private Moment footer;
     private Moment empty;
     private Moment noMore;
-    private long timeCursor;
+    private long timeCursor = 0;
 
     public MomentPresenter(Context context, HomePageContract.View view) {
         this.view = view;
@@ -109,6 +109,7 @@ public class MomentPresenter implements HomePageContract.Presenter {
                         hasMoreItems = false;
                         data.add(noMore);
                     } else {
+                        hasMoreItems = true;
                         timeCursor = body.getData().get(bodySize - 1).getEventTime();
                     }
                     view.showData(data);
@@ -171,5 +172,25 @@ public class MomentPresenter implements HomePageContract.Presenter {
         intent.putExtra(Constant.KEY_EDIT_FROM, Constant.MOMENT_FROM_EDIT);
         intent.putExtra("data", moment);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onDataChange(Object moment) {
+        data.clear();
+        List<Moment> realmResult = model.getAllMomentFromRealm();
+
+        if (realmResult.size() == 0) {
+            data.add(empty);
+        } else {
+            if (realmResult.get(realmResult.size() - 1).getEventTime() < timeCursor && hasMoreItems) {
+                realmResult.remove(realmResult.size() - 1);
+            }
+            data.addAll(realmResult);
+        }
+
+        if (!hasMoreItems) {
+            data.add(noMore);
+        }
+        view.showData(data);
     }
 }

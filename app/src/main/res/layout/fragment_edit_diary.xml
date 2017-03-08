@@ -38,7 +38,8 @@ android:fitsSystemWindows="true">
             <EditText
                 android:id="@+id/edit_diary_title"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
                 android:hint="添加标题"
                 android:textSize="20sp"
                 android:layout_margin="10dp"

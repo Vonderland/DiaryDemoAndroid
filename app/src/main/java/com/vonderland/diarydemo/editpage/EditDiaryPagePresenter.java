@@ -1,6 +1,7 @@
 package com.vonderland.diarydemo.editpage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.vonderland.diarydemo.bean.Diary;
@@ -11,6 +12,8 @@ import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.utils.PictureUtil;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -37,7 +40,7 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
     }
 
     @Override
-    public void postData(String title, long date, String description, String filePath, int change) {
+    public void postData(String title, long date, String description, String filePath, final int change) {
 
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         builder.addFormDataPart(Constant.KEY_TITLE, title)
@@ -54,9 +57,16 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
 
                 @Override
                 public void onSuccess(ListResponse<Diary> body) {
+                    List<Diary> diary = body.getData();
+                    if (diary.size() > 0) {
+                        model.insertDiaryToRealm(diary.get(0));
+                        Intent intent = new Intent();
+                        intent.setAction(Constant.ACTION_DIARY_CHANGE);
+                        intent.putExtra(Constant.DIARY_FROM_BROADCAST, diary.get(0));
+                        context.sendBroadcast(intent);
+                    }
                     view.showSuccessfully(false);
                     ((EditActivity)context).finish();
-                    //TODO:主页对应数据修改
                 }
 
                 @Override
@@ -77,9 +87,16 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
 
                 @Override
                 public void onSuccess(ListResponse<Diary> body) {
+                    List<Diary> diary = body.getData();
+                    if (diary.size() > 0) {
+                        model.updateDiaryInRealm(diary.get(0));
+                        Intent intent = new Intent();
+                        intent.setAction(Constant.ACTION_DIARY_CHANGE);
+                        intent.putExtra(Constant.DIARY_FROM_BROADCAST, diary.get(0));
+                        context.sendBroadcast(intent);
+                    }
                     view.showSuccessfully(true);
                     ((EditActivity)context).finish();
-                    //TODO:日记阅读页面对应数据修改
                 }
 
                 @Override

@@ -1,6 +1,7 @@
 package com.vonderland.diarydemo.editpage;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.bean.Moment;
@@ -9,6 +10,7 @@ import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +44,14 @@ public class EditMomentPagePresenter implements EditMomentPageContract.Presenter
 
                 @Override
                 public void onSuccess(ListResponse<Moment> body) {
+                    List<Moment> moment = body.getData();
+                    if (moment.size() > 0) {
+                        model.insertMomentToRealm(moment.get(0));
+                        Intent intent = new Intent();
+                        intent.setAction(Constant.ACTION_MOMENT_CHANGE);
+                        intent.putExtra(Constant.MOMENT_FROM_BROADCAST, moment.get(0));
+                        context.sendBroadcast(intent);
+                    }
                     view.showSuccessfully(false);
                     ((EditActivity)context).finish();
                 }
@@ -58,6 +68,14 @@ public class EditMomentPagePresenter implements EditMomentPageContract.Presenter
 
                 @Override
                 public void onSuccess(ListResponse<Moment> body) {
+                    List<Moment> moment = body.getData();
+                    if (moment.size() > 0) {
+                        model.updateMomentInRealm(moment.get(0));
+                        Intent intent = new Intent();
+                        intent.setAction(Constant.ACTION_MOMENT_CHANGE);
+                        intent.putExtra(Constant.MOMENT_FROM_BROADCAST, moment.get(0));
+                        context.sendBroadcast(intent);
+                    }
                     view.showSuccessfully(true);
                     ((EditActivity)context).finish();
                 }

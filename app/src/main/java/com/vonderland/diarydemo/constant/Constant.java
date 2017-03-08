@@ -23,7 +23,12 @@ public class Constant {
     public static final String KEY_EDIT_FROM = "edit_from";
     public static final String DIARY_FROM_EDIT = "diary_from_edit";
     public static final String DIARY_FROM_CREATE = "diary_from_create";
+    public static final String DIARY_FROM_BROADCAST = "diary_from_broadcast";
 
     public static final String MOMENT_FROM_EDIT = "moment_from_edit";
     public static final String MOMENT_FROM_CREATE = "moment_from_create";
+    public static final String MOMENT_FROM_BROADCAST = "moment_from_broadcast";
+
+    public static final String ACTION_DIARY_CHANGE = "action_diary_change";
+    public static final String ACTION_MOMENT_CHANGE = "action_moment_change";
 }

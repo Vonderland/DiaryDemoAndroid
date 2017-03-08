@@ -1,6 +1,7 @@
 package com.vonderland.diarydemo.bean;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -10,7 +11,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Vonderland on 2017/2/1.
  */
 
-public class Diary extends RealmObject implements Serializable{
+public class Diary extends RealmObject implements Serializable, Comparable<Diary> {
     @PrimaryKey
     private long id;
     private String title;
@@ -28,6 +29,23 @@ public class Diary extends RealmObject implements Serializable{
     private boolean isEmptyView = false;
     @Ignore
     private boolean isNoMore = false;
+
+    @Override
+    public int compareTo(Diary o) {
+        if (this.eventTime != o.eventTime) {
+            if (this.eventTime > o.eventTime) {
+                return -1;
+            } else {
+                return 1;
+            }
+        } else {
+            if (this.updateTime > o.updateTime) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
 
     public long getId() {
         return id;

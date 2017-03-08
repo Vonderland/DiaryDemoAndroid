@@ -37,6 +37,12 @@ public class DiaryDetailPresenter implements DetailPageContract.Presenter{
     }
 
     @Override
+    public void onDataChange(Object data) {
+        diary = (Diary) data;
+        view.showData(diary);
+    }
+
+    @Override
     public void start() {
         view.showData(diary);
     }
