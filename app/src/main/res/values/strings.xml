@@ -32,4 +32,7 @@
     <string name="please_choose_moment_time">请选择纪念日时间&#8230;</string>
 
     <string name="click_again_to_exit">再按一次退出应用</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <string name="register_rec">还没有账号？<u>点我注册></u></string>
 </resources>

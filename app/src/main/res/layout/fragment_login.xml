@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fcfafa">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_gravity="center_vertical">
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="35dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_gravity="center_horizontal" />
+        <EditText
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:hint="邮箱"
+            android:textSize="16sp"
+            android:id="@+id/login_email"
+            android:textColor="@color/secondaryText"/>
+
+        <EditText
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="密码"
+            android:textSize="16sp"
+            android:id="@+id/login_passwd"
+            android:textColor="@color/secondaryText"/>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/checkbox"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="下次自动登录"
+            android:textSize="16sp"
+            android:checked="true"
+            android:textColor="@color/secondaryText" />
+
+        <TextView
+            android:id="@+id/btn_login"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/round_primary_color_btn"
+            android:textSize="18sp"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/btn_start_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/secondaryText"
+            android:textSize="14sp"
+            android:text="@string/register_rec"/>
+    </LinearLayout>
+</FrameLayout>

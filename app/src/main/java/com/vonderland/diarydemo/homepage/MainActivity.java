@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.vonderland.diarydemo.R;
+import com.vonderland.diarydemo.SplashActivity;
 import com.vonderland.diarydemo.adapter.HomePagerAdapter;
 
 import com.vonderland.diarydemo.bean.Diary;
@@ -142,7 +143,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_settings) {
-
+            Intent intent = new Intent(this, SplashActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_about) {
 
         }
