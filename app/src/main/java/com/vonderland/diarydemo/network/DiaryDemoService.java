@@ -4,6 +4,7 @@ import com.vonderland.diarydemo.bean.AuthResponse;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.bean.Moment;
+import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
 
 import java.util.Map;
@@ -69,4 +70,7 @@ public interface DiaryDemoService {
 
     @POST("register")
     Call<AuthResponse> register(@Body RequestBody body);
+
+    @GET("userProfile")
+    Call<UserResponse> getUserProfile();
 }

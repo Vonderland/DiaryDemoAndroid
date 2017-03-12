@@ -20,8 +20,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.SplashActivity;
 import com.vonderland.diarydemo.adapter.HomePagerAdapter;
@@ -30,8 +34,14 @@ import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.Moment;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.editpage.EditActivity;
+import com.vonderland.diarydemo.event.RefreshNavEvent;
+import com.vonderland.diarydemo.event.RegisterFinishEvent;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 public class MainActivity extends AppCompatActivity
@@ -46,6 +56,9 @@ public class MainActivity extends AppCompatActivity
 
     private DiaryPresenter diaryPresenter;
     private MomentPresenter momentPresenter;
+
+    private ImageView navAvatar;
+    private TextView navNickName;
 
     private long lastBackPressed;
 
@@ -105,6 +118,8 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navAvatar = (ImageView) navigationView.findViewById(R.id.nav_avatar_iv);
+        navNickName = (TextView) navigationView.findViewById(R.id.nav_user_nick);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -174,5 +189,32 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(RefreshNavEvent event) {
+        String url = event.avatar;
+        if (url.startsWith("files/image/diaryImage")) {
+            url = Constant.HOST + url;
+        }
+        Glide.with(this)
+                .load(url)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(navAvatar);
+        navNickName.setText(event.nickName);
+        EventBus.getDefault().removeStickyEvent(event);
     }
 }

@@ -2,15 +2,19 @@ package com.vonderland.diarydemo.homepage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.DiaryModel;
 import com.vonderland.diarydemo.bean.ListResponse;
+import com.vonderland.diarydemo.bean.User;
+import com.vonderland.diarydemo.bean.UserModel;
+import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.detailpage.DetailActivity;
+import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
-import com.vonderland.diarydemo.utils.L;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +31,8 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     private boolean isLoadingMore = false;
     private boolean hasMoreItems = true;
     private HomePageContract.View view;
-    private DiaryModel model;
+    private DiaryModel diaryModel;
+    private UserModel userModel;
     private List<Diary> data;
     private Diary footer;
     private Diary empty;
@@ -39,7 +44,8 @@ public class DiaryPresenter implements HomePageContract.Presenter {
         this.view.setPresenter(this);
         this.context = context;
 
-        model = new DiaryModel();
+        diaryModel = new DiaryModel();
+        userModel = new UserModel();
         data = new ArrayList<>();
 
         footer = new Diary();
@@ -75,20 +81,20 @@ public class DiaryPresenter implements HomePageContract.Presenter {
             options.put(Constant.KEY_TIME_CURSOR, timeCursor + "");
         }
         if (isRefreshing && data.size() == 0) {
-            data.addAll(model.getAllDiariesFromRealm());
+            data.addAll(diaryModel.getAllDiariesFromRealm());
             if (data.size() == 0) {
                 data.add(empty);
             }
             view.showData(data);
         }
-        model.loadDiaries(options, new BaseResponseHandler<ListResponse<Diary>>() {
+        diaryModel.loadDiaries(options, new BaseResponseHandler<ListResponse<Diary>>() {
             @Override
             public void onSuccess(ListResponse<Diary> body) {
                 if (isRefreshing) {
                     data.clear();
                     data.addAll(body.getData());
-                    model.deleteDiariesInRealm();
-                    model.insertDiariesToRealm(body.getData());
+                    diaryModel.deleteDiariesInRealm();
+                    diaryModel.insertDiariesToRealm(body.getData());
                     int bodySize = body.getData().size();
                     if (data.size() == 0) {
                         data.add(empty);
@@ -106,7 +112,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
                         data.remove(data.size() - 1);
                     }
                     data.addAll(body.getData());
-                    model.insertDiariesToRealm(body.getData());
+                    diaryModel.insertDiariesToRealm(body.getData());
                     int bodySize = body.getData().size();
                     if (bodySize < Constant.PAGE_SIZE) {
                         hasMoreItems = false;
@@ -148,11 +154,12 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     @Override
     public void start() {
         refresh();
+        refreshUserProfile();
     }
 
     @Override
     public void deleteData(int position) {
-        model.deleteDiary(data.get(position).getId(), new BaseResponseHandler<ListResponse<Diary>>() {
+        diaryModel.deleteDiary(data.get(position).getId(), new BaseResponseHandler<ListResponse<Diary>>() {
 
             @Override
             public void onSuccess(ListResponse<Diary> body) {
@@ -178,7 +185,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     @Override
     public void onDataChange(Object diary) {
         data.clear();
-        List<Diary> realmResult = model.getAllDiariesFromRealm();
+        List<Diary> realmResult = diaryModel.getAllDiariesFromRealm();
 
         if (realmResult.size() == 0) {
             data.add(empty);
@@ -193,5 +200,31 @@ public class DiaryPresenter implements HomePageContract.Presenter {
             data.add(noMore);
         }
         view.showData(data);
+    }
+
+    private void refreshUserProfile() {
+        User user = userModel.getUserProfileFromRealm();
+        if (user != null) {
+            EventBus.getDefault().postSticky(new RefreshNavEvent(user.getAvatar(), user.getNickName()));
+        }
+        userModel.getUserProfile(new BaseResponseHandler<UserResponse>() {
+
+            @Override
+            public void onSuccess(UserResponse body) {
+                if (body != null) {
+                    User refreshUser = body.getData();
+                    if (refreshUser != null) {
+                        userModel.updateProfileInRealm(refreshUser);
+                        EventBus.getDefault().
+                                postSticky(new RefreshNavEvent(refreshUser.getAvatar(), refreshUser.getNickName()));
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int statusCode) {
+
+            }
+        });
     }
 }

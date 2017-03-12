@@ -13,7 +13,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/reg_avatar_iv"
+        android:id="@+id/nav_avatar_iv"
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:src="@mipmap/defalt_avatar"
@@ -26,7 +26,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:textSize="15dp"
-        android:text="Vonderland"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>
