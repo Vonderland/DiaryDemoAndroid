@@ -18,23 +18,23 @@
             android:src="@mipmap/ic_launcher"
             android:layout_gravity="center_horizontal" />
         <EditText
+            android:id="@+id/login_email"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="邮箱"
             android:textSize="16sp"
-            android:id="@+id/login_email"
             android:textColor="@color/secondaryText"/>
 
         <EditText
+            android:id="@+id/login_passwd"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="密码"
             android:textSize="16sp"
-            android:id="@+id/login_passwd"
             android:textColor="@color/secondaryText"/>
 
         <android.support.v7.widget.AppCompatCheckBox
@@ -44,7 +44,6 @@
             android:layout_height="wrap_content"
             android:text="下次自动登录"
             android:textSize="16sp"
-            android:checked="true"
             android:textColor="@color/secondaryText" />
 
         <TextView
@@ -59,15 +58,28 @@
             android:text="登录"
             android:textColor="@color/white"
             android:gravity="center"/>
-        <TextView
-            android:id="@+id/btn_start_register"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:orientation="horizontal"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
-            android:textColor="@color/secondaryText"
-            android:textSize="14sp"
-            android:text="@string/register_rec"/>
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <TextView
+                android:id="@+id/btn_forget"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/register_forget"
+                android:textColor="@color/secondaryText"
+                android:textSize="14sp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/btn_start_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryText"
+                android:textSize="14sp"
+                android:text="@string/register_rec"/>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

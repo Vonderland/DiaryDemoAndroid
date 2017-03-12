@@ -19,6 +19,12 @@
     <string name="has_no_more">已无更多</string>
 
     <string name="network_error">啊噢，网络似乎出了点问题</string>
+    <string name="invalid_token">登录过期，请重新登录</string>
+    <string name="email_used">这个邮箱已经被申请啦，换一个吧</string>
+    <string name="not_register">登录邮箱错误</string>
+    <string name="not_login">登录过期，请重新登录</string>
+    <string name="wrong_password">密码错误</string>
+
     <string name="diary">日记</string>
     <string name="moment">纪念日</string>
 
@@ -35,4 +41,5 @@
     <string name="title_activity_login">Sign in</string>
 
     <string name="register_rec">还没有账号？<u>点我注册></u></string>
+    <string name="register_forget"><u>忘记密码？</u></string>
 </resources>

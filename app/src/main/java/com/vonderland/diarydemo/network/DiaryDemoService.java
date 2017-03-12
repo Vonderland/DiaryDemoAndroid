@@ -1,5 +1,6 @@
 package com.vonderland.diarydemo.network;
 
+import com.vonderland.diarydemo.bean.AuthResponse;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.bean.Moment;
@@ -62,4 +63,8 @@ public interface DiaryDemoService {
     @FormUrlEncoded
     @POST("deleteMoment")
     Call<ListResponse<Moment>> deleteMoment(@Field(Constant.KEY_ID) long id);
+
+    @FormUrlEncoded
+    @POST("login")
+    Call<AuthResponse> login(@FieldMap Map<String, String> options);
 }

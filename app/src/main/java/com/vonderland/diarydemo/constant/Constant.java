@@ -5,9 +5,9 @@ package com.vonderland.diarydemo.constant;
  */
 
 public class Constant {
-    public static final String HOST = "http://192.168.88.106:8080/";
+    public static final String HOST = "http://192.168.88.104:8080/";
 
-    //网络请求参数 key
+    // 网络请求参数 key
     public static final String KEY_TITLE = "title";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_EVENT_TIME = "eventTime";
@@ -16,6 +16,8 @@ public class Constant {
     public static final String KEY_PICTURE_CHANGED = "pictureChanged";
     public static final String KEY_LOCATION = "location";
     public static final String KEY_TIME_CURSOR = "timeCursor";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_PASSWORD = "password";
     public static final String KEY_PAGE_SIZE = "size";
 
     public static final int PAGE_SIZE = 20;
@@ -31,4 +33,10 @@ public class Constant {
 
     public static final String ACTION_DIARY_CHANGE = "action_diary_change";
     public static final String ACTION_MOMENT_CHANGE = "action_moment_change";
+
+    // SharedPref key
+    public static final String SP_KEY_UID = "sp_uid";
+    public static final String SP_KEY_TOKEN = "sp_token";
+    public static final String SP_KEY_REMEMBER_STATUS = "sp_remember_status";
+    public static final String SP_KEY_HOST = "sp_host";
 }

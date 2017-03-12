@@ -11,4 +11,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="timelineColor">#eaeaea</color>
+
+    <color name="dividerColor">#14000000</color>
 </resources>

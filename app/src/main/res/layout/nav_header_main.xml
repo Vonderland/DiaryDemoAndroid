@@ -12,24 +12,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/reg_avatar_iv"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:src="@mipmap/defalt_avatar"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/white"/>
 
     <TextView
+        android:id="@+id/nav_user_nick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:paddingTop="10dp"
+        android:textSize="15dp"
         android:text="Vonderland"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="vonderland@outlook.com" />
 
 </LinearLayout>
