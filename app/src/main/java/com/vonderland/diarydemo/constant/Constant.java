@@ -18,6 +18,9 @@ public class Constant {
     public static final String KEY_TIME_CURSOR = "timeCursor";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
+    public static final String KEY_AVATAR = "avatar";
+    public static final String KEY_NICK_NAME = "nickName";
+    public static final String KEY_GENDER = "gender";
     public static final String KEY_PAGE_SIZE = "size";
 
     public static final int PAGE_SIZE = 20;

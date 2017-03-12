@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.vonderland.diarydemo.R;
+import com.vonderland.diarydemo.event.RegisterFinishEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.frame);
 
         view = new LoginFragment();
@@ -36,6 +42,17 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(RegisterFinishEvent event) {
+        finish();
     }
 }
 

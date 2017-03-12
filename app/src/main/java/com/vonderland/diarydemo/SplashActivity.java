@@ -53,7 +53,8 @@ public class SplashActivity extends AppCompatActivity {
 
         String token = (String)SharedPrefUtil.getInstance().get(Constant.SP_KEY_TOKEN, "");
         boolean remember = (boolean)SharedPrefUtil.getInstance().get(Constant.SP_KEY_REMEMBER_STATUS, false);
-        if (TextUtils.isEmpty(token) || !remember) {
+        //if (TextUtils.isEmpty(token) || !remember) {
+        if (true) {
             mHandler.sendEmptyMessageDelayed(GOTO_LOGIN, 0);
         } else {
             mHandler.sendEmptyMessageDelayed(GOTO_MAIN, 0);

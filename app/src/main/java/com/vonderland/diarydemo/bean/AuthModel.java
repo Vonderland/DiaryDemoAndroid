@@ -6,6 +6,7 @@ import com.vonderland.diarydemo.network.ServiceGenerator;
 
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 
 /**
@@ -21,6 +22,11 @@ public class AuthModel {
 
     public void login(Map<String, String> options, BaseResponseHandler handler) {
         Call<AuthResponse> call = apiService.login(options);
+        executeCall(call, handler);
+    }
+
+    public void register(RequestBody body, BaseResponseHandler handler) {
+        Call<AuthResponse> call = apiService.register(body);
         executeCall(call, handler);
     }
 

@@ -45,7 +45,6 @@ public interface DiaryDemoService {
     @POST("deleteDiary")
     Call<ListResponse<Diary>> deleteDiary(@Field(Constant.KEY_ID) long id);
 
-
     @GET("allMoment")
     Call<ListResponse<Moment>> loadAllMoment();
 
@@ -67,4 +66,7 @@ public interface DiaryDemoService {
     @FormUrlEncoded
     @POST("login")
     Call<AuthResponse> login(@FieldMap Map<String, String> options);
+
+    @POST("register")
+    Call<AuthResponse> register(@Body RequestBody body);
 }

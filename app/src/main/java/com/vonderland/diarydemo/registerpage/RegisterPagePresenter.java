@@ -1,53 +1,69 @@
-package com.vonderland.diarydemo.loginpage;
+package com.vonderland.diarydemo.registerpage;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
-import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.bean.AuthModel;
 import com.vonderland.diarydemo.bean.AuthResponse;
 import com.vonderland.diarydemo.bean.Authorization;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.event.RegisterFinishEvent;
 import com.vonderland.diarydemo.homepage.MainActivity;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
-import com.vonderland.diarydemo.registerpage.RegisterActivity;
 import com.vonderland.diarydemo.utils.CipherUtil;
 import com.vonderland.diarydemo.utils.L;
+import com.vonderland.diarydemo.utils.PictureUtil;
 import com.vonderland.diarydemo.utils.SharedPrefUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by Vonderland on 2017/3/12.
  */
 
-public class LoginPresenter implements LoginPageContract.Presenter{
+public class RegisterPagePresenter implements RegisterPageContract.Presenter {
 
-    private LoginPageContract.View view;
+    private RegisterPageContract.View view;
     private AuthModel authModel;
     private SharedPrefUtil spUtil;
 
-    public LoginPresenter(LoginPageContract.View view) {
+    public RegisterPagePresenter(RegisterPageContract.View view) {
         this.view = view;
         this.view.setPresenter(this);
-
         authModel = new AuthModel();
         spUtil = SharedPrefUtil.getInstance();
     }
-
     @Override
-    public void login(final Context context, String email, String password) {
+    public void register(final Context context, String email, String password, String nickName, boolean gender, String filePath) {
+        view.showProgressBar();
         String encodedEmail = CipherUtil.encodeDataBase64(email);
         String encodedPassword = CipherUtil.encodeData(password);
-        L.d("ciperTest", "email = " + encodedEmail + " password = " + encodedPassword);
-        view.showProgressBar();
 
-        Map<String, String> options = new HashMap<String, String>();
-        options.put(Constant.KEY_EMAIL, encodedEmail);
-        options.put(Constant.KEY_PASSWORD, encodedPassword);
-        authModel.login(options, new BaseResponseHandler<AuthResponse>() {
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        builder.addFormDataPart(Constant.KEY_EMAIL, encodedEmail)
+                .addFormDataPart(Constant.KEY_PASSWORD, encodedPassword)
+                .addFormDataPart(Constant.KEY_NICK_NAME, nickName);
+        if (gender) {
+            builder.addFormDataPart(Constant.KEY_GENDER, "1");
+        } else {
+            builder.addFormDataPart(Constant.KEY_GENDER, "0");
+        }
+        if (!TextUtils.isEmpty(filePath)) {
+            File picture = new File(filePath);
+            builder.addFormDataPart(Constant.KEY_AVATAR, picture.getName(),
+                    RequestBody.create(MediaType.parse(PictureUtil.getMimeType(picture)), picture));
+        }
+
+        RequestBody requestBody = builder.build();
+        authModel.register(requestBody, new BaseResponseHandler<AuthResponse>() {
             @Override
             public void onSuccess(AuthResponse body) {
                 if (body != null) {
@@ -55,11 +71,13 @@ public class LoginPresenter implements LoginPageContract.Presenter{
                     if (authorization != null) {
                         spUtil.put(Constant.SP_KEY_TOKEN, authorization.getToken());
                         spUtil.put(Constant.SP_KEY_UID, authorization.getUid());
-                        L.d("loginResponse", "token = " + authorization.getToken() + " uid = " + authorization.getUid());
+                        L.d("registerResponse", "token = " + authorization.getToken() + " uid = " + authorization.getUid());
                         view.dismissProgressBar();
+
                         Intent intent = new Intent(context, MainActivity.class);
                         context.startActivity(intent);
                         ((Activity)context).finish();
+                        EventBus.getDefault().post(new RegisterFinishEvent());
                     }
                 }
             }
@@ -73,24 +91,7 @@ public class LoginPresenter implements LoginPageContract.Presenter{
     }
 
     @Override
-    public void setStatus(boolean remember) {
-        spUtil.put(Constant.SP_KEY_REMEMBER_STATUS, remember);
-    }
-
-    @Override
-    public void startRegister(Context context) {
-        Intent intent = new Intent(context, RegisterActivity.class);
-        context.startActivity(intent);
-    }
-
-    @Override
-    public void startForget(Context context) {
-
-    }
-
-    @Override
     public void start() {
-        boolean remember = (boolean)spUtil.get(Constant.SP_KEY_REMEMBER_STATUS, false);
-        view.showStatus(remember);
+
     }
 }
