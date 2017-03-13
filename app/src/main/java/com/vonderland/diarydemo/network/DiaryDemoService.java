@@ -73,4 +73,11 @@ public interface DiaryDemoService {
 
     @GET("userProfile")
     Call<UserResponse> getUserProfile();
+
+    @POST("updateAvatar")
+    Call<UserResponse> updateAvatar(@Body RequestBody body);
+
+    @FormUrlEncoded
+    @POST("updateNickName")
+    Call<UserResponse> updateNickName (@Field(Constant.KEY_NICK_NAME) String nickName);
 }

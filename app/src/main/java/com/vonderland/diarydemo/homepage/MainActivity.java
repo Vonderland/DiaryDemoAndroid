@@ -37,6 +37,7 @@ import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.editpage.EditActivity;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.event.RegisterFinishEvent;
+import com.vonderland.diarydemo.profilepage.ProfileActivity;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         initVariables();
         initViews();
+        EventBus.getDefault().register(this);
     }
 
     private void initVariables() {
@@ -123,6 +125,13 @@ public class MainActivity extends AppCompatActivity
         navAvatar = (ImageView) header.findViewById(R.id.nav_avatar_iv);
         navNickName = (TextView) header.findViewById(R.id.nav_user_nick);
         navigationView.setNavigationItemSelectedListener(this);
+        navAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -190,17 +199,6 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
         EventBus.getDefault().unregister(this);
     }
 

@@ -7,6 +7,7 @@ import com.vonderland.diarydemo.network.ServiceGenerator;
 import com.vonderland.diarydemo.utils.SharedPrefUtil;
 
 import io.realm.Realm;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 
 /**
@@ -24,6 +25,16 @@ public class UserModel {
 
     public void getUserProfile(BaseResponseHandler handler) {
         Call<UserResponse> call = apiService.getUserProfile();
+        executeCall(call, handler);
+    }
+
+    public void updateAvatar(RequestBody body, BaseResponseHandler handler) {
+        Call<UserResponse> call = apiService.updateAvatar(body);
+        executeCall(call, handler);
+    }
+
+    public void updateNickName(String nickName, BaseResponseHandler handler) {
+        Call<UserResponse> call = apiService.updateNickName(nickName);
         executeCall(call, handler);
     }
 

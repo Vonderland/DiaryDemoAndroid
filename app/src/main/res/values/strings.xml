@@ -25,6 +25,12 @@
     <string name="not_login">登录过期，请重新登录</string>
     <string name="wrong_password">密码错误</string>
 
+    <string name="update_successfully">操作成功</string>
+    <string name="update_avatar_successfully">头像更新成功</string>
+    <string name="update_nick_successfully">昵称更新成功</string>
+    <string name="put_in_black_successfully">已成功把对方关进小黑屋</string>
+    <string name="release_from_black_successfully">已成功把对方从小黑屋放出来</string>
+
     <string name="diary">日记</string>
     <string name="moment">纪念日</string>
 
@@ -42,4 +48,6 @@
 
     <string name="register_rec">还没有账号？<u>点我注册></u></string>
     <string name="register_forget"><u>忘记密码？</u></string>
+
+    <string name="nick_name">昵称</string>
 </resources>

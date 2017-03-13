@@ -37,6 +37,8 @@ public class Constant {
     public static final String ACTION_DIARY_CHANGE = "action_diary_change";
     public static final String ACTION_MOMENT_CHANGE = "action_moment_change";
 
+    public static final String KEY_IS_LOVER = "is_lover";
+
     // SharedPref key
     public static final String SP_KEY_UID = "sp_uid";
     public static final String SP_KEY_TOKEN = "sp_token";

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="12dp">
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/secondaryText"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="17dp"
+            android:maxHeight="140dp"
+            android:textSize="16sp"
+            android:textColor="@color/primaryText"
+            android:background="@null"
+            android:lineSpacingExtra="4dp"
+            android:singleLine="false"
+            android:gravity="start"
+            android:inputType="textMultiLine"/>
+        <TextView
+            android:id="@+id/confirm_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:text="@string/dialog_ok"
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="17dp"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"/>
+    </LinearLayout>
+
+</LinearLayout>
