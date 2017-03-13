@@ -30,6 +30,11 @@ public class AuthModel {
         executeCall(call, handler);
     }
 
+    public void resetPassword(String old, String newPassword, BaseResponseHandler handler) {
+        Call<AuthResponse> call = apiService.resetPassword(old, newPassword);
+        executeCall(call, handler);
+    }
+
     private void executeCall(Call call, BaseResponseHandler handler) {
         call.enqueue(handler);
     }

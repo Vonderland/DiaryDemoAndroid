@@ -4,7 +4,7 @@ package com.vonderland.diarydemo.bean;
  * Created by Vonderland on 2017/3/11.
  */
 
-public class UserResponse {
+public class UserResponse extends BaseResponse {
     private User data;
 
     public User getData() {

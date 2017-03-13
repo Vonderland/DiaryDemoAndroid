@@ -79,5 +79,10 @@ public interface DiaryDemoService {
 
     @FormUrlEncoded
     @POST("updateNickName")
-    Call<UserResponse> updateNickName (@Field(Constant.KEY_NICK_NAME) String nickName);
+    Call<UserResponse> updateNickName(@Field(Constant.KEY_NICK_NAME) String nickName);
+
+    @FormUrlEncoded
+    @POST("resetPassword")
+    Call<AuthResponse> resetPassword(@Field(Constant.KEY_PASSWORD) String password,
+                                     @Field(Constant.KEY_NEW_PASSWORD) String newPassword);
 }

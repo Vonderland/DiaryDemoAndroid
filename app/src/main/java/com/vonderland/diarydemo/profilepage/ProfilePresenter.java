@@ -10,6 +10,7 @@ import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
+import com.vonderland.diarydemo.utils.L;
 import com.vonderland.diarydemo.utils.PictureUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -120,6 +121,7 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
 
     private void loadCachedData() {
         User user;
+        L.d("profileTest", "cachedata");
         if (!isLover) {
             user = userModel.getUserProfileFromRealm();
         } else {
@@ -133,11 +135,13 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
             userModel.getUserProfile(new BaseResponseHandler<UserResponse>() {
                 @Override
                 public void onSuccess(UserResponse body) {
+                    L.d("profileTestonSuccess", "----");
                     if (body != null) {
                         User refreshUser = body.getData();
                         if (refreshUser != null) {
                             userModel.updateProfileInRealm(refreshUser);
                             view.showData(refreshUser, false);
+                            L.d("profileTestonSuccess", "haha");
                             EventBus.getDefault().
                                     postSticky(new RefreshNavEvent(refreshUser.getAvatar(),
                                             refreshUser.getNickName()));
@@ -147,6 +151,7 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
 
                 @Override
                 public void onError(int statusCode) {
+                    L.d("profileTestError", "code = " + statusCode);
                     view.showError(statusCode);
                 }
             });

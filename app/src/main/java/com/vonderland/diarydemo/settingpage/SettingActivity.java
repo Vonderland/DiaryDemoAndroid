@@ -83,7 +83,7 @@ public class SettingActivity extends AppCompatActivity {
         resetLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SettingActivity.this, "重置密码", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SettingActivity.this, ResetPasswordActivity.class));
             }
         });
 

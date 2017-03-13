@@ -25,9 +25,13 @@ abstract public class BaseResponseHandler<T> implements Callback<T> {
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
+        L.d("profileTest", "haha");
         if (response.isSuccessful()) {
+            L.d("profileTest", "response.isSuccessful, body = " + response.body());
             if (response.body() instanceof BaseResponse) {
+                L.d("profileTest", "response.body() instanceof BaseResponse");
                 BaseResponse resp = (BaseResponse) response.body();
+                L.d("profileTest", "resp.getCode() = " + resp.getCode());
                 if (resp.getCode() != 100) {
                     onError(resp.getCode());
                     return;
