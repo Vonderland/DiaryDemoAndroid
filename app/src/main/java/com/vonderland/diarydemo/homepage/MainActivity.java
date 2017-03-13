@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -118,8 +119,9 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navAvatar = (ImageView) navigationView.findViewById(R.id.nav_avatar_iv);
-        navNickName = (TextView) navigationView.findViewById(R.id.nav_user_nick);
+        View header = navigationView.getHeaderView(0);
+        navAvatar = (ImageView) header.findViewById(R.id.nav_avatar_iv);
+        navNickName = (TextView) header.findViewById(R.id.nav_user_nick);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -158,8 +160,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SplashActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_about) {
 
         }
@@ -206,7 +207,7 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(RefreshNavEvent event) {
         String url = event.avatar;
-        if (url.startsWith("files/image/diaryImage")) {
+        if (url.startsWith("files/image")) {
             url = Constant.HOST + url;
         }
         Glide.with(this)

@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="邮箱"
+            android:text="test1@test.com"
             android:textSize="16sp"
             android:textColor="@color/secondaryText"/>
 
@@ -34,6 +35,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="密码"
+            android:text="12345678"
             android:textSize="16sp"
             android:textColor="@color/secondaryText"/>
 

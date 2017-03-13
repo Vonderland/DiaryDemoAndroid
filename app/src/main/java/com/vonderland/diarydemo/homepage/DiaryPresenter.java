@@ -13,6 +13,7 @@ import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.detailpage.DetailActivity;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
+import com.vonderland.diarydemo.utils.L;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -205,6 +206,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     private void refreshUserProfile() {
         User user = userModel.getUserProfileFromRealm();
         if (user != null) {
+            L.d("diaryPresenterProfile", user.getUid() + " " + user.getAvatar() + " " + user.getNickName());
             EventBus.getDefault().postSticky(new RefreshNavEvent(user.getAvatar(), user.getNickName()));
         }
         userModel.getUserProfile(new BaseResponseHandler<UserResponse>() {
