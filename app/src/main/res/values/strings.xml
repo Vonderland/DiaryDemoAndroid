@@ -50,4 +50,8 @@
     <string name="register_forget"><u>忘记密码？</u></string>
 
     <string name="nick_name">昵称</string>
+
+    <string name="current_email">当前账号：%s</string>
+    <string name="current_cache_size">已缓存 %d M</string>
+    <string name="host">服务器地址</string>
 </resources>

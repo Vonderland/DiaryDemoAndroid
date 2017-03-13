@@ -58,8 +58,6 @@ public class ProfileEditDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 if (TextUtils.isEmpty(textET.getText().toString())) {
                     Toast.makeText(getActivity(), "你还没有输入哦", Toast.LENGTH_SHORT).show();
-                } else if (textET.getText().toString().length() > LENGTH_LIMIT) {
-                    Toast.makeText(getActivity(), "输入太长啦", Toast.LENGTH_SHORT).show();
                 } else {
                     if (confirmClickedListener != null) {
                         confirmClickedListener.onConfirmClicked(textET.getText().toString());

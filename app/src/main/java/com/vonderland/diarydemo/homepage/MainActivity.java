@@ -35,9 +35,11 @@ import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.Moment;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.editpage.EditActivity;
+import com.vonderland.diarydemo.event.LogoutEvent;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.event.RegisterFinishEvent;
 import com.vonderland.diarydemo.profilepage.ProfileActivity;
+import com.vonderland.diarydemo.settingpage.SettingActivity;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
 
@@ -167,9 +169,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.nav_settings) {
-
+            startActivity(new Intent(this, SettingActivity.class));
         } else if (id == R.id.nav_about) {
 
         }
@@ -215,5 +216,10 @@ public class MainActivity extends AppCompatActivity
                 .into(navAvatar);
         navNickName.setText(event.nickName);
         EventBus.getDefault().removeStickyEvent(event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LogoutEvent event) {
+        finish();
     }
 }

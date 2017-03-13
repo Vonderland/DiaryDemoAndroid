@@ -48,8 +48,12 @@ public class ServiceGenerator {
                 })
                 .build();
 
+        String host = (String)SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, "");
+        if (TextUtils.isEmpty(host)) {
+            host = Constant.HOST;
+        }
         Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(Constant.HOST)
+                        .baseUrl(host)
                         .addConverterFactory(GsonConverterFactory.create())
                         .client(httpClient).build();
         return retrofit.create(serviceClass);
