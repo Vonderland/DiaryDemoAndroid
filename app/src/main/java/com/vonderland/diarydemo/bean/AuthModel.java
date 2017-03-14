@@ -35,6 +35,11 @@ public class AuthModel {
         executeCall(call, handler);
     }
 
+    public void forgetPassword(String email, BaseResponseHandler handler) {
+        Call<BaseResponse> call = apiService.forgetPassword(email);
+        executeCall(call, handler);
+    }
+
     private void executeCall(Call call, BaseResponseHandler handler) {
         call.enqueue(handler);
     }

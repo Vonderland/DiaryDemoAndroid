@@ -1,6 +1,7 @@
 package com.vonderland.diarydemo.network;
 
 import com.vonderland.diarydemo.bean.AuthResponse;
+import com.vonderland.diarydemo.bean.BaseResponse;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.bean.Moment;
@@ -85,4 +86,8 @@ public interface DiaryDemoService {
     @POST("resetPassword")
     Call<AuthResponse> resetPassword(@Field(Constant.KEY_PASSWORD) String password,
                                      @Field(Constant.KEY_NEW_PASSWORD) String newPassword);
+
+    @FormUrlEncoded
+    @POST("forgetPassword")
+    Call<BaseResponse> forgetPassword(@Field(Constant.KEY_EMAIL) String email);
 }

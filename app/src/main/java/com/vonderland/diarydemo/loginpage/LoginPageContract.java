@@ -19,6 +19,10 @@ public interface LoginPageContract {
         void dismissProgressBar();
 
         void showError(int code);
+
+        void showEmailSuccess();
+
+        void showWaitMessage();
     }
 
     interface Presenter extends BasePresenter {
@@ -30,5 +34,11 @@ public interface LoginPageContract {
         void startRegister(Context context);
 
         void startForget(Context context);
+
+        void forgetPassword(String email);
+
+        void setHostAddress(String host);
+
+        String getHostAddress();
     }
 }

@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.vonderland.diarydemo.R;
+import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.ui.ProfileEditDialogFragment;
 
 /**
  * Created by Vonderland on 2017/3/12.
@@ -29,7 +32,10 @@ public class LoginFragment extends Fragment implements LoginPageContract.View{
     private TextView loginBtn;
     private TextView forgetBtn;
     private TextView registerBtn;
+    private ImageView logo;
     private MaterialDialog progressDialog;
+
+    private int logoClick = 0;
 
     @Nullable
     @Override
@@ -41,6 +47,26 @@ public class LoginFragment extends Fragment implements LoginPageContract.View{
         loginBtn = (TextView)view.findViewById(R.id.btn_login);
         forgetBtn = (TextView)view.findViewById(R.id.btn_forget);
         registerBtn = (TextView)view.findViewById(R.id.btn_start_register);
+        logo = (ImageView) view.findViewById(R.id.logo);
+
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoClick++;
+                if (logoClick > 10) {
+                    ProfileEditDialogFragment fragment
+                            = ProfileEditDialogFragment.newInstance(R.string.host, presenter.getHostAddress());
+                    fragment.setConfirmClickedListener(new ProfileEditDialogFragment.OnConfirmClickedListener() {
+                        @Override
+                        public void onConfirmClicked(String string) {
+                            presenter.setHostAddress(string);
+                        }
+                    });
+                    fragment.show(getActivity().getSupportFragmentManager(), "loginFragment");
+                }
+            }
+        });
+
         progressDialog = new MaterialDialog.Builder(getActivity())
                 .content("登录中…")
                 .progress(true, 0)
@@ -70,7 +96,14 @@ public class LoginFragment extends Fragment implements LoginPageContract.View{
         forgetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.startForget(getActivity());
+                String emailStr = email.getText().toString();
+                if (TextUtils.isEmpty(emailStr)) {
+                    Toast.makeText(getActivity(), "请填写邮箱", Toast.LENGTH_SHORT).show();
+                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()){
+                    Toast.makeText(getActivity(), "邮箱格式填写不正确", Toast.LENGTH_SHORT).show();
+                } else {
+                    presenter.forgetPassword(emailStr);
+                }
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -118,10 +151,23 @@ public class LoginFragment extends Fragment implements LoginPageContract.View{
             case 110:
                 msgId = R.string.wrong_password;
                 break;
+            case 111:
+                msgId = R.string.forget_fail;
+                break;
             default:
                 msgId = R.string.network_error;
                 break;
         }
         Toast.makeText(getActivity(), msgId, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showEmailSuccess() {
+        Toast.makeText(getActivity(), "新密码邮件已发送到您的邮箱", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showWaitMessage() {
+        Toast.makeText(getActivity(), "已向服务器提交请求，请稍候", Toast.LENGTH_LONG).show();
     }
 }

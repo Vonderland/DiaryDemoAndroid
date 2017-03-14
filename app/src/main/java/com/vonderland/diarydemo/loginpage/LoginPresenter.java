@@ -28,6 +28,7 @@ public class LoginPresenter implements LoginPageContract.Presenter{
     private LoginPageContract.View view;
     private AuthModel authModel;
     private SharedPrefUtil spUtil;
+    private long lastForget;
 
     public LoginPresenter(LoginPageContract.View view) {
         this.view = view;
@@ -92,5 +93,38 @@ public class LoginPresenter implements LoginPageContract.Presenter{
     public void start() {
         boolean remember = (boolean)spUtil.get(Constant.SP_KEY_REMEMBER_STATUS, false);
         view.showStatus(remember);
+    }
+
+    @Override
+    public void forgetPassword(String email) {
+        if (java.util.Calendar.getInstance().getTimeInMillis() - lastForget > 60 * 1000) {
+            lastForget = java.util.Calendar.getInstance().getTimeInMillis();
+            String encodedEmail = CipherUtil.encodeDataBase64(email);
+            authModel.forgetPassword(encodedEmail, new BaseResponseHandler() {
+                @Override
+                public void onSuccess(Object body) {
+                    view.showEmailSuccess();
+                    lastForget = 0;
+                }
+
+                @Override
+                public void onError(int statusCode) {
+                    view.showError(statusCode);
+                    lastForget = 0;
+                }
+            });
+        } else {
+            view.showWaitMessage();
+        }
+    }
+
+    @Override
+    public void setHostAddress(String host) {
+        spUtil.put(Constant.SP_KEY_HOST, host);
+    }
+
+    @Override
+    public String getHostAddress() {
+        return (String)spUtil.get(Constant.SP_KEY_HOST, Constant.HOST);
     }
 }
