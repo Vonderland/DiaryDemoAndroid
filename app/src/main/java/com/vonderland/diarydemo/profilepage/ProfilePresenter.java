@@ -12,6 +12,7 @@ import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.utils.L;
 import com.vonderland.diarydemo.utils.PictureUtil;
+import com.vonderland.diarydemo.utils.SharedPrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,6 +31,7 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
     private boolean isLover;
     private UserModel userModel;
     private ProfilePageContract.View view;
+    private SharedPrefUtil sharedPrefUtil;
 
     public ProfilePresenter(ProfilePageContract.View view, boolean isLover) {
         this.view = view;
@@ -37,6 +39,7 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
 
         this.isLover = isLover;
         userModel = new UserModel();
+        sharedPrefUtil = SharedPrefUtil.getInstance();
     }
 
     @Override
@@ -125,7 +128,7 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
         if (!isLover) {
             user = userModel.getUserProfileFromRealm();
         } else {
-            user = null;
+            user = userModel.getLoverProfileFromRealm();
         }
         view.showData(user, isLover);
     }
@@ -135,13 +138,13 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
             userModel.getUserProfile(new BaseResponseHandler<UserResponse>() {
                 @Override
                 public void onSuccess(UserResponse body) {
-                    L.d("profileTestonSuccess", "----");
                     if (body != null) {
                         User refreshUser = body.getData();
                         if (refreshUser != null) {
                             userModel.updateProfileInRealm(refreshUser);
+                            sharedPrefUtil.put(Constant.SP_KEY_IS_BLACK, refreshUser.isBlack());
+                            sharedPrefUtil.put(Constant.SP_KEY_LOVER_ID, refreshUser.getLoverId());
                             view.showData(refreshUser, false);
-                            L.d("profileTestonSuccess", "haha");
                             EventBus.getDefault().
                                     postSticky(new RefreshNavEvent(refreshUser.getAvatar(),
                                             refreshUser.getNickName()));
@@ -156,7 +159,24 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
                 }
             });
         } else {
-            view.showData(null, isLover);
+            userModel.getLoverProfile(new BaseResponseHandler<UserResponse>() {
+                @Override
+                public void onSuccess(UserResponse body) {
+                    if (body != null) {
+                        User refreshUser = body.getData();
+                        if (refreshUser != null) {
+                            userModel.updateProfileInRealm(refreshUser);
+                            view.showData(refreshUser, true);
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(int statusCode) {
+                    L.d("profileTestError", "code = " + statusCode);
+                    view.showError(statusCode);
+                }
+            });
         }
     }
 }

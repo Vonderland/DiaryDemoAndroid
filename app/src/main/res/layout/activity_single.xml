@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_marginTop="80dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@mipmap/splash"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_marginTop="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textColor="@color/secondaryText"
+                android:text="使用我们前请先添加另一半"/>
+
+            <EditText
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_height="wrap_content"
+                android:hint="输入另一半的邮箱"
+                android:inputType="textEmailAddress"
+                android:id="@+id/lover_email"
+                android:gravity="center"
+                android:textColor="@color/primaryText"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/btn_send"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_primary_color_btn"
+                android:textSize="18sp"
+                android:text="发送请求"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

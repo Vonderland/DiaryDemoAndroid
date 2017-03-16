@@ -25,6 +25,12 @@
     <string name="not_login">登录过期，请重新登录</string>
     <string name="forget_fail">邮件发送失败，请重试</string>
     <string name="wrong_password">密码错误</string>
+    <string name="lover_not_reg">该邮箱还未注册账号</string>
+    <string name="lover_has_lover">对方已经有另一半啦</string>
+    <string name="wait_lover">已经向对方发过请求，静候佳音哦</string>
+    <string name="has_lover">你已经有另一半啦</string>
+    <string name="lover_put_you_black">对方已经先发制人把你关进小黑屋</string>
+    <string name="send_to_self">不能那么自恋地向自己发请求哦</string>
 
     <string name="update_successfully">操作成功</string>
     <string name="update_avatar_successfully">头像更新成功</string>

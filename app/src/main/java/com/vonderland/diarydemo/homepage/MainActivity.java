@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity
         Glide.with(this)
                 .load(url)
                 .centerCrop()
+                .dontAnimate()
                 .placeholder(R.mipmap.defalt_avatar)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(navAvatar);

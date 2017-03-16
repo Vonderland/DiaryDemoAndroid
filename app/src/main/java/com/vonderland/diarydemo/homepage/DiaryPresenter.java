@@ -14,6 +14,7 @@ import com.vonderland.diarydemo.detailpage.DetailActivity;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.utils.L;
+import com.vonderland.diarydemo.utils.SharedPrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,11 +40,13 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     private Diary empty;
     private Diary noMore;
     private long timeCursor = 0;
+    private SharedPrefUtil sharedPrefUtil;
 
     public DiaryPresenter (Context context, HomePageContract.View view) {
         this.view = view;
         this.view.setPresenter(this);
         this.context = context;
+        sharedPrefUtil = SharedPrefUtil.getInstance();
 
         diaryModel = new DiaryModel();
         userModel = new UserModel();
@@ -217,6 +220,10 @@ public class DiaryPresenter implements HomePageContract.Presenter {
                     User refreshUser = body.getData();
                     if (refreshUser != null) {
                         userModel.updateProfileInRealm(refreshUser);
+                        sharedPrefUtil.put(Constant.SP_KEY_IS_BLACK, refreshUser.isBlack());
+                        sharedPrefUtil.put(Constant.SP_KEY_LOVER_ID, refreshUser.getLoverId());
+                        sharedPrefUtil.put(Constant.SP_KEY_IS_BLACK, refreshUser.isBlack());
+                        sharedPrefUtil.put(Constant.SP_KEY_LOVER_ID, refreshUser.getLoverId());
                         EventBus.getDefault().
                                 postSticky(new RefreshNavEvent(refreshUser.getAvatar(), refreshUser.getNickName()));
                     }

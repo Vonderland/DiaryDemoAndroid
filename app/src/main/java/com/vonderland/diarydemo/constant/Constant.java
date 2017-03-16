@@ -23,6 +23,9 @@ public class Constant {
     public static final String KEY_NICK_NAME = "nickName";
     public static final String KEY_GENDER = "gender";
     public static final String KEY_PAGE_SIZE = "size";
+    public static final String KEY_IS_PRIVATE = "isPrivate";
+    public static final String KEY_IS_BLACK = "isBlack";
+
 
     public static final int PAGE_SIZE = 20;
 

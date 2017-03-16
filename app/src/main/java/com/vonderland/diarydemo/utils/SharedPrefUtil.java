@@ -84,6 +84,8 @@ public class SharedPrefUtil {
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(Constant.SP_KEY_TOKEN);
         editor.remove(Constant.SP_KEY_UID);
+        editor.remove(Constant.SP_KEY_IS_BLACK);
+        editor.remove(Constant.SP_KEY_LOVER_ID);
         editor.apply();
     }
 }

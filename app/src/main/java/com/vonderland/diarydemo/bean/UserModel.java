@@ -28,6 +28,11 @@ public class UserModel {
         executeCall(call, handler);
     }
 
+    public void getLoverProfile(BaseResponseHandler handler) {
+        Call<UserResponse> call = apiService.getLoverProfile();
+        executeCall(call, handler);
+    }
+
     public void updateAvatar(RequestBody body, BaseResponseHandler handler) {
         Call<UserResponse> call = apiService.updateAvatar(body);
         executeCall(call, handler);
@@ -51,6 +56,15 @@ public class UserModel {
     public User getUserProfileFromRealm() {
         long uid = (long)SharedPrefUtil.getInstance().get(Constant.SP_KEY_UID, 0L);
         User result = realm.where(User.class).equalTo("uid", uid).findFirst();
+        if (result != null) {
+            result = realm.copyFromRealm(result);
+        }
+        return result;
+    }
+
+    public User getLoverProfileFromRealm() {
+        long loverId = (long)SharedPrefUtil.getInstance().get(Constant.SP_KEY_LOVER_ID, 0L);
+        User result = realm.where(User.class).equalTo("uid", loverId).findFirst();
         if (result != null) {
             result = realm.copyFromRealm(result);
         }

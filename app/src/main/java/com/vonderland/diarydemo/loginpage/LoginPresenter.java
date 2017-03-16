@@ -8,13 +8,21 @@ import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.bean.AuthModel;
 import com.vonderland.diarydemo.bean.AuthResponse;
 import com.vonderland.diarydemo.bean.Authorization;
+import com.vonderland.diarydemo.bean.User;
+import com.vonderland.diarydemo.bean.UserModel;
+import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.couplepages.BlackHouseActivity;
+import com.vonderland.diarydemo.couplepages.SingleActivity;
+import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.homepage.MainActivity;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.registerpage.RegisterActivity;
 import com.vonderland.diarydemo.utils.CipherUtil;
 import com.vonderland.diarydemo.utils.L;
 import com.vonderland.diarydemo.utils.SharedPrefUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +35,7 @@ public class LoginPresenter implements LoginPageContract.Presenter{
 
     private LoginPageContract.View view;
     private AuthModel authModel;
+    private UserModel userModel;
     private SharedPrefUtil spUtil;
     private long lastForget;
 
@@ -57,10 +66,7 @@ public class LoginPresenter implements LoginPageContract.Presenter{
                         spUtil.put(Constant.SP_KEY_TOKEN, authorization.getToken());
                         spUtil.put(Constant.SP_KEY_UID, authorization.getUid());
                         L.d("loginResponse", "token = " + authorization.getToken() + " uid = " + authorization.getUid());
-                        view.dismissProgressBar();
-                        Intent intent = new Intent(context, MainActivity.class);
-                        context.startActivity(intent);
-                        ((Activity)context).finish();
+                        startNextActivity(context);
                     }
                 }
             }
@@ -126,5 +132,40 @@ public class LoginPresenter implements LoginPageContract.Presenter{
     @Override
     public String getHostAddress() {
         return (String)spUtil.get(Constant.SP_KEY_HOST, Constant.HOST);
+    }
+
+    private void startNextActivity(final Context context) {
+        // auth 返回后才有 token 信息，因此在这里才进行初始化
+        userModel = new UserModel();
+        userModel.getUserProfile(new BaseResponseHandler<UserResponse>() {
+
+            @Override
+            public void onSuccess(UserResponse body) {
+                if (body != null) {
+                    User refreshUser = body.getData();
+                    if (refreshUser != null) {
+                        userModel.updateProfileInRealm(refreshUser);
+                        spUtil.put(Constant.SP_KEY_IS_BLACK, refreshUser.isBlack());
+                        spUtil.put(Constant.SP_KEY_LOVER_ID, refreshUser.getLoverId());
+                        Intent intent;
+                        if (refreshUser.isBlack()) {
+                            intent = new Intent(context, BlackHouseActivity.class);
+                        } else if (refreshUser.getLoverId() == -1) {
+                            intent = new Intent(context, SingleActivity.class);
+                        } else {
+                            intent = new Intent(context, MainActivity.class);
+                        }
+                        view.dismissProgressBar();
+                        context.startActivity(intent);
+                        ((Activity)context).finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int statusCode) {
+
+            }
+        });
     }
 }

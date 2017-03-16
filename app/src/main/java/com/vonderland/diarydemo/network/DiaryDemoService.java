@@ -2,9 +2,11 @@ package com.vonderland.diarydemo.network;
 
 import com.vonderland.diarydemo.bean.AuthResponse;
 import com.vonderland.diarydemo.bean.BaseResponse;
+import com.vonderland.diarydemo.bean.BooleanResponse;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.ListResponse;
 import com.vonderland.diarydemo.bean.Moment;
+import com.vonderland.diarydemo.bean.RequestResponse;
 import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
 
@@ -90,4 +92,35 @@ public interface DiaryDemoService {
     @FormUrlEncoded
     @POST("forgetPassword")
     Call<BaseResponse> forgetPassword(@Field(Constant.KEY_EMAIL) String email);
+
+    @FormUrlEncoded
+    @POST("sendRequest")
+    Call<BaseResponse> sendRequest(@Field(Constant.KEY_EMAIL) String email);
+
+    @FormUrlEncoded
+    @POST("acceptRequest")
+    Call<BaseResponse> acceptRequest(@Field(Constant.KEY_ID) long id);
+
+    @FormUrlEncoded
+    @POST("rejectRequest")
+    Call<BaseResponse> rejectRequest(@Field(Constant.KEY_ID) long id);
+
+    @GET("checkRequest")
+    Call<RequestResponse> checkRequest();
+
+    @GET("hasLover")
+    Call<BooleanResponse> hasLover();
+
+    @GET("isBlack")
+    Call<BooleanResponse> isBlack();
+
+    @FormUrlEncoded
+    @POST("setIsBlack")
+    Call<BaseResponse> setIsBlack(@Field(Constant.KEY_IS_BLACK) boolean isBlack);
+
+    @POST("breakUp")
+    Call<BaseResponse> breakUp();
+
+    @GET("loverProfile")
+    Call<UserResponse> getLoverProfile();
 }

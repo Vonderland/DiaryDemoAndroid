@@ -149,6 +149,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
             Glide.with(this)
                     .load(url)
                     .centerCrop()
+                    .dontAnimate()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .placeholder(R.mipmap.defalt_avatar)
                     .into(avatar);

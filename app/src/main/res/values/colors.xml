@@ -12,5 +12,6 @@
     <color name="divider">#BDBDBD</color>
     <color name="timelineColor">#eaeaea</color>
 
+    <color name="black">#000000</color>
     <color name="dividerColor">#14000000</color>
 </resources>
