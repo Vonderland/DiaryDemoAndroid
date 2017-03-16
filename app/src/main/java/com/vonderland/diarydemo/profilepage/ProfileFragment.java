@@ -24,6 +24,7 @@ import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.ui.ProfileEditDialogFragment;
 import com.vonderland.diarydemo.utils.L;
 import com.vonderland.diarydemo.utils.PictureUtil;
+import com.vonderland.diarydemo.utils.SharedPrefUtil;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -143,7 +144,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
         if (user != null) {
             String url = user.getAvatar();
             if (url.startsWith("files/image")) {
-                url = Constant.HOST + url;
+                url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
             }
             Glide.with(this)
                     .load(url)

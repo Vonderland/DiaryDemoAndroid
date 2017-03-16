@@ -42,6 +42,7 @@ import com.vonderland.diarydemo.profilepage.ProfileActivity;
 import com.vonderland.diarydemo.settingpage.SettingActivity;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
+import com.vonderland.diarydemo.utils.SharedPrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity
     public void onMessageEvent(RefreshNavEvent event) {
         String url = event.avatar;
         if (url.startsWith("files/image")) {
-            url = Constant.HOST + url;
+            url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
         }
         Glide.with(this)
                 .load(url)

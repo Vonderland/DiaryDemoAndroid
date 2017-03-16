@@ -16,6 +16,7 @@ import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
+import com.vonderland.diarydemo.utils.SharedPrefUtil;
 
 import java.util.List;
 
@@ -87,7 +88,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else {
                 String url = diary.getUrl();
                 if (url.startsWith("files/image/diaryImage")) {
-                    url = Constant.HOST + url;
+                    url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
                 }
                 Glide.with(context)
                         .load(url)

@@ -26,6 +26,7 @@ import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.editpage.EditActivity;
 import com.vonderland.diarydemo.homepage.MainActivity;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
+import com.vonderland.diarydemo.utils.SharedPrefUtil;
 
 /**
  * Created by Vonderland on 2017/2/4.
@@ -79,7 +80,7 @@ public class DiaryDetailFragment extends Fragment implements DetailPageContract.
             picture.setImageResource((R.drawable.giraffe));
         } else {
             if (url.startsWith("files/image/diaryImage")) {
-                url = Constant.HOST + url;
+                url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
             }
             Glide.with(context)
                     .load(url)

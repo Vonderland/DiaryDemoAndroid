@@ -14,6 +14,24 @@ public class User extends RealmObject {
     private String nickName;
     private boolean gender;
     private String avatar;
+    private long loverId;
+    private boolean isBlack;
+
+    public long getLoverId() {
+        return loverId;
+    }
+
+    public void setLoverId(long loverId) {
+        this.loverId = loverId;
+    }
+
+    public boolean isBlack() {
+        return isBlack;
+    }
+
+    public void setBlack(boolean black) {
+        isBlack = black;
+    }
 
     public long getUid() {
         return uid;

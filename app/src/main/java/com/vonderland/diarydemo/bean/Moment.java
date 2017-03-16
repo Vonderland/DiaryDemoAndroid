@@ -13,6 +13,7 @@ import io.realm.annotations.PrimaryKey;
 public class Moment extends RealmObject implements Serializable, Comparable<Moment> {
     @PrimaryKey
     private long id;
+    private long uid;
     private String title;
     private String location;
     private long eventTime;
@@ -27,6 +28,14 @@ public class Moment extends RealmObject implements Serializable, Comparable<Mome
     private boolean isEmptyView = false;
     @Ignore
     private boolean isNoMore = false;
+
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
 
     @Override
     public int compareTo(Moment o) {

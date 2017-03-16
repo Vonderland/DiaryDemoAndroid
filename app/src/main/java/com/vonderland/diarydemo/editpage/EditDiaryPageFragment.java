@@ -28,6 +28,7 @@ import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
 import com.vonderland.diarydemo.utils.PictureUtil;
+import com.vonderland.diarydemo.utils.SharedPrefUtil;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
@@ -142,7 +143,7 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
         if (!TextUtils.isEmpty(data.getUrl())) {
             String url = data.getUrl();
             if (url.startsWith("files/image/diaryImage")) {
-                url = Constant.HOST + url;
+                url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
             }
             Glide.with(context)
                     .load(url)

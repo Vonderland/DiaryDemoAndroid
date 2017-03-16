@@ -45,4 +45,7 @@ public class Constant {
     public static final String SP_KEY_TOKEN = "sp_token";
     public static final String SP_KEY_REMEMBER_STATUS = "sp_remember_status";
     public static final String SP_KEY_HOST = "sp_host";
+    public static final String SP_KEY_LOVER_ID = "sp_lover_id";
+    public static final String SP_KEY_IS_BLACK = "sp_is_black";
+
 }
