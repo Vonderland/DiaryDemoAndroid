@@ -18,8 +18,11 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.vonderland.diarydemo.R;
+import com.vonderland.diarydemo.application.DiaryDemoApplication;
 import com.vonderland.diarydemo.utils.L;
 import com.vonderland.diarydemo.utils.PictureUtil;
+
+import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -44,6 +47,8 @@ public class RegisterPageFragment extends Fragment implements RegisterPageContra
     private final int REQUEST_CROP = 2;
 
     private String path;
+    private File fileForCroppedPic;
+    private Uri uriForCroppedPic;
 
     @Nullable
     @Override
@@ -96,6 +101,8 @@ public class RegisterPageFragment extends Fragment implements RegisterPageContra
             }
         });
 
+        fileForCroppedPic = new File(DiaryDemoApplication.getGlobalContext().getExternalCacheDir(), "avatar_cropped.png");
+        uriForCroppedPic = Uri.fromFile(fileForCroppedPic);
         presenter.start();
         return view;
     }
@@ -129,7 +136,7 @@ public class RegisterPageFragment extends Fragment implements RegisterPageContra
                     doCrop(data.getData());
                     break;
                 case REQUEST_CROP:
-                    updateAvatar(data.getData());
+                    updateAvatar(uriForCroppedPic);
                     break;
                 default:
                     break;
@@ -146,7 +153,8 @@ public class RegisterPageFragment extends Fragment implements RegisterPageContra
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         intent.putExtra("scale", true);
-        intent.putExtra("return-data", "true");
+        intent.putExtra("return-data", "false");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForCroppedPic);
         try {
             startActivityForResult(intent, REQUEST_CROP);
         } catch (Exception e) {

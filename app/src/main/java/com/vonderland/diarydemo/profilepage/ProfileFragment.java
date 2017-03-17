@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -22,12 +23,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vonderland.diarydemo.R;
+import com.vonderland.diarydemo.application.DiaryDemoApplication;
 import com.vonderland.diarydemo.bean.User;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.ui.ProfileEditDialogFragment;
 import com.vonderland.diarydemo.utils.L;
 import com.vonderland.diarydemo.utils.PictureUtil;
 import com.vonderland.diarydemo.utils.SharedPrefUtil;
+
+import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -61,6 +65,8 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
 
     private String path;
     private String host;
+    private File fileForCroppedPic;
+    private Uri uriForCroppedPic;
 
     @Nullable
     @Override
@@ -69,6 +75,8 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
         setHasOptionsMenu(true);
 
         host = (String)SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST);
+        fileForCroppedPic = new File(DiaryDemoApplication.getGlobalContext().getExternalCacheDir(), "avatar_cropped.png");
+        uriForCroppedPic = Uri.fromFile(fileForCroppedPic);
         ProfileActivity activity = (ProfileActivity) getActivity();
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -239,7 +247,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
                     doCrop(data.getData());
                     break;
                 case REQUEST_CROP:
-                    updateAvatar(data.getData());
+                    updateAvatar(uriForCroppedPic);
                     presenter.updateAvatar(path);
                     break;
                 default:
@@ -266,7 +274,8 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         intent.putExtra("scale", true);
-        intent.putExtra("return-data", "true");
+        intent.putExtra("return-data", "false");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForCroppedPic);
         try {
             startActivityForResult(intent, REQUEST_CROP);
         } catch (Exception e) {
