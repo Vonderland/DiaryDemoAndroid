@@ -17,7 +17,7 @@ public interface EditDiaryPageContract {
     }
 
     interface Presenter extends BasePresenter {
-        void postData(String title, long date, String description, String filePath, int change);
+        void postData(String title, long date, String description, String filePath, int change, boolean isPrivate);
         void setData(Diary data);
     }
 }

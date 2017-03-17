@@ -40,12 +40,13 @@ public class EditDiaryPagePresenter implements EditDiaryPageContract.Presenter {
     }
 
     @Override
-    public void postData(String title, long date, String description, String filePath, final int change) {
+    public void postData(String title, long date, String description, String filePath, final int change, boolean isPrivate) {
 
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         builder.addFormDataPart(Constant.KEY_TITLE, title)
                 .addFormDataPart(Constant.KEY_EVENT_TIME, date + "")
-                .addFormDataPart(Constant.KEY_DESCRIPTION, description);
+                .addFormDataPart(Constant.KEY_DESCRIPTION, description)
+                .addFormDataPart(Constant.KEY_IS_PRIVATE, isPrivate + "");
         if (data == null) {
             if (!TextUtils.isEmpty(filePath)) {
                 File picture = new File(filePath);

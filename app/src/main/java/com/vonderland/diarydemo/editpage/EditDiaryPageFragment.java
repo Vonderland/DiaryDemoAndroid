@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +50,9 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
     private EditText title;
     private LinearLayout calendarBtn;
     private TextView date;
+    private LinearLayout modeLL;
+    private TextView mode;
+    private SwitchCompat privateSwitch;
     private EditText description;
     private ImageView deletePicBtn;
 
@@ -86,6 +92,9 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
         title = (EditText) view.findViewById(R.id.edit_diary_title);
         date = (TextView) view.findViewById(R.id.date);
         description = (EditText) view.findViewById(R.id.edit_diary_content);
+        modeLL = (LinearLayout) view.findViewById(R.id.mode_ll);
+        mode = (TextView) view.findViewById(R.id.private_mode);
+        privateSwitch = (SwitchCompat) view.findViewById(R.id.private_switch);
 
         presenter.start();
 
@@ -114,6 +123,17 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
                 deletePicBtn.setVisibility(View.GONE);
             }
         });
+
+        privateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mode.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+                } else {
+                    mode.setTextColor(ContextCompat.getColor(getActivity(), R.color.hintText));
+                }
+            }
+        });
         return view;
     }
 
@@ -140,6 +160,17 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
         mYear = DateTimeUtil.getYear(data.getEventTime());
         mMonth = DateTimeUtil.getMonth(data.getEventTime());
         mDay = DateTimeUtil.getDay(data.getEventTime());
+
+        if (data.getUid() != (long)SharedPrefUtil.getInstance().get(Constant.SP_KEY_UID, 0l)) {
+            modeLL.setVisibility(View.GONE);
+        }
+
+        privateSwitch.setChecked(data.isPrivate());
+        if (data.isPrivate()) {
+            mode.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+        } else {
+            mode.setTextColor(ContextCompat.getColor(getActivity(), R.color.hintText));
+        }
 
         if (!TextUtils.isEmpty(data.getUrl())) {
             String url = data.getUrl();
@@ -223,7 +254,7 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
             } else if (TextUtils.equals(date.getText(), context.getResources().getString(R.string.please_choose_time))) {
                 Toast.makeText(context, "还没选择时间哦", Toast.LENGTH_SHORT).show();
             } else {
-                presenter.postData(diaryTitle, eventTime, diaryDescription, filePath, change);
+                presenter.postData(diaryTitle, eventTime, diaryDescription, filePath, change, privateSwitch.isChecked());
             }
 
         }

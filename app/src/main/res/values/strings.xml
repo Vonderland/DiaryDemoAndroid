@@ -49,6 +49,7 @@
 
     <string name="please_choose_time">请选择时间&#8230;</string>
     <string name="please_choose_moment_time">请选择纪念日时间&#8230;</string>
+    <string name="private_mode">私密模式</string>
 
     <string name="click_again_to_exit">再按一次退出应用</string>
     <string name="title_activity_login">Sign in</string>
