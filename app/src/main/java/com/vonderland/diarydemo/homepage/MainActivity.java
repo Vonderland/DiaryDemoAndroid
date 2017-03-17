@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     private TextView navNickName;
 
     private long lastBackPressed;
+    private String host;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity
         initVariables();
         initViews();
         EventBus.getDefault().register(this);
+        host = (String)SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST);
     }
 
     private void initVariables() {
@@ -208,7 +210,7 @@ public class MainActivity extends AppCompatActivity
     public void onMessageEvent(RefreshNavEvent event) {
         String url = event.avatar;
         if (url.startsWith("files/image")) {
-            url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
+            url = host + url;
         }
         Glide.with(this)
                 .load(url)

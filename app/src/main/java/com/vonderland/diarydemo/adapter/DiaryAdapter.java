@@ -37,10 +37,13 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int VIEW_TYPE_EMPTY = 4;
     private static final int VIEW_TYPE_DIARY_NO_PIC = 5;
 
+    private String host;
+
     public DiaryAdapter(Context context, List<Diary> data) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.data = data;
+        host = (String)SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST);
     }
 
     @Override
@@ -88,7 +91,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else {
                 String url = diary.getUrl();
                 if (url.startsWith("files/image/diaryImage")) {
-                    url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
+                    url = host + url;
                 }
                 Glide.with(context)
                         .load(url)

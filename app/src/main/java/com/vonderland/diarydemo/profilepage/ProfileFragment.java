@@ -57,6 +57,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
     }
 
     private String path;
+    private String host;
 
     @Nullable
     @Override
@@ -64,6 +65,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         setHasOptionsMenu(true);
 
+        host = (String)SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST);
         ProfileActivity activity = (ProfileActivity) getActivity();
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -144,7 +146,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
         if (user != null) {
             String url = user.getAvatar();
             if (url.startsWith("files/image")) {
-                url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
+                url = host + url;
             }
             Glide.with(this)
                     .load(url)

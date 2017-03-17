@@ -59,11 +59,13 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
 
     public final static int REQUEST_IMAGE = 1;
     private Uri outputFileUri;
+    private String host;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getContext();
+        host = (String)SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST);
     }
 
     @Nullable
@@ -97,7 +99,6 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(context, "更换图片", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, REQUEST_IMAGE);
@@ -143,7 +144,7 @@ public class EditDiaryPageFragment extends Fragment implements EditDiaryPageCont
         if (!TextUtils.isEmpty(data.getUrl())) {
             String url = data.getUrl();
             if (url.startsWith("files/image/diaryImage")) {
-                url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
+                url = host + url;
             }
             Glide.with(context)
                     .load(url)

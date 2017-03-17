@@ -43,6 +43,8 @@ public class DiaryDetailFragment extends Fragment implements DetailPageContract.
     private TextView description;
     private TextView editInfo;
 
+    private String host;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class DiaryDetailFragment extends Fragment implements DetailPageContract.
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getContext();
+        host = (String)SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST);
     }
 
     @Override
@@ -80,7 +83,7 @@ public class DiaryDetailFragment extends Fragment implements DetailPageContract.
             picture.setImageResource((R.drawable.giraffe));
         } else {
             if (url.startsWith("files/image/diaryImage")) {
-                url = SharedPrefUtil.getInstance().get(Constant.SP_KEY_HOST, Constant.HOST) + url;
+                url = host + url;
             }
             Glide.with(context)
                     .load(url)
