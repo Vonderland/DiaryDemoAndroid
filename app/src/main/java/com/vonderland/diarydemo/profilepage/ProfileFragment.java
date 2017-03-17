@@ -1,10 +1,13 @@
 package com.vonderland.diarydemo.profilepage;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -100,7 +103,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
         breakupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.startBreakUp();
+                showBreakUpDialog();
             }
         });
 
@@ -125,6 +128,26 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
         return view;
     }
 
+    private void showBreakUpDialog() {
+        Dialog dialog = new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.break_up_remind)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.startBreakUp(getActivity());
+                    }
+                })
+                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
     @Override
     public void showData(User user, boolean isLover) {
         if (isLover) {

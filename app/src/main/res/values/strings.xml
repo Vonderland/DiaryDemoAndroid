@@ -62,4 +62,6 @@
     <string name="current_email">当前账号：%s</string>
     <string name="current_cache_size">已缓存 %d M</string>
     <string name="host">服务器地址</string>
+
+    <string name="break_up_remind">解除与另一半的关系后，所有的日记与纪念日都会被清空！\n确定要解除关系吗?\n</string>
 </resources>

@@ -3,6 +3,7 @@ package com.vonderland.diarydemo.homepage;
 import android.content.Context;
 import android.content.Intent;
 
+import com.vonderland.diarydemo.application.DiaryDemoApplication;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.DiaryModel;
 import com.vonderland.diarydemo.bean.ListResponse;
@@ -10,7 +11,9 @@ import com.vonderland.diarydemo.bean.User;
 import com.vonderland.diarydemo.bean.UserModel;
 import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.couplepages.SingleActivity;
 import com.vonderland.diarydemo.detailpage.DetailActivity;
+import com.vonderland.diarydemo.event.BreakUpEvent;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.utils.L;
@@ -222,8 +225,14 @@ public class DiaryPresenter implements HomePageContract.Presenter {
                         userModel.updateProfileInRealm(refreshUser);
                         sharedPrefUtil.put(Constant.SP_KEY_IS_BLACK, refreshUser.isBlack());
                         sharedPrefUtil.put(Constant.SP_KEY_LOVER_ID, refreshUser.getLoverId());
-                        sharedPrefUtil.put(Constant.SP_KEY_IS_BLACK, refreshUser.isBlack());
-                        sharedPrefUtil.put(Constant.SP_KEY_LOVER_ID, refreshUser.getLoverId());
+                        if (refreshUser.getLoverId() == -1) {
+                            sharedPrefUtil.remove(Constant.SP_KEY_IS_BLACK);
+                            Context context = DiaryDemoApplication.getGlobalContext();
+                            Intent intent = new Intent(context, SingleActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            EventBus.getDefault().post(new BreakUpEvent());
+                        }
                         EventBus.getDefault().
                                 postSticky(new RefreshNavEvent(refreshUser.getAvatar(), refreshUser.getNickName()));
                     }

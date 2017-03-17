@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.vonderland.diarydemo.bean.CoupleModel;
 import com.vonderland.diarydemo.bean.User;
 import com.vonderland.diarydemo.bean.UserModel;
 import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.couplepages.SingleActivity;
+import com.vonderland.diarydemo.event.BreakUpEvent;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
 import com.vonderland.diarydemo.utils.L;
@@ -30,6 +33,7 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
 
     private boolean isLover;
     private UserModel userModel;
+    private CoupleModel coupleModel;
     private ProfilePageContract.View view;
     private SharedPrefUtil sharedPrefUtil;
 
@@ -39,6 +43,7 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
 
         this.isLover = isLover;
         userModel = new UserModel();
+        coupleModel = new CoupleModel();
         sharedPrefUtil = SharedPrefUtil.getInstance();
     }
 
@@ -112,10 +117,29 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
     }
 
     @Override
-    public void startBreakUp() {
+    public void startBreakUp(final Context context) {
+        coupleModel.breakUp(new BaseResponseHandler() {
+            @Override
+            public void onSuccess(Object body) {
+                startSingleActivity(context);
+            }
 
+            @Override
+            public void onError(int statusCode) {
+                if (statusCode == 116) {
+                    startSingleActivity(context);
+                } else {
+                    view.showError(statusCode);
+                }
+            }
+        });
     }
 
+    private void startSingleActivity(Context context) {
+        sharedPrefUtil.remove(Constant.SP_KEY_LOVER_ID);
+        context.startActivity(new Intent(context, SingleActivity.class));
+        EventBus.getDefault().post(new BreakUpEvent());
+    }
     @Override
     public void start() {
         loadCachedData();

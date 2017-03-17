@@ -23,6 +23,6 @@ public interface ProfilePageContract {
         void updateNickName(String nickName);
         void startLoverPage(Context context);
         void setBlackHouse(boolean inBlackHouse);
-        void startBreakUp();
+        void startBreakUp(Context context);
     }
 }

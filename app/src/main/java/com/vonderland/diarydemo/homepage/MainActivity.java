@@ -35,6 +35,7 @@ import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.Moment;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.editpage.EditActivity;
+import com.vonderland.diarydemo.event.BreakUpEvent;
 import com.vonderland.diarydemo.event.LogoutEvent;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.event.RegisterFinishEvent;
@@ -225,6 +226,11 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LogoutEvent event) {
+        finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BreakUpEvent event) {
         finish();
     }
 }

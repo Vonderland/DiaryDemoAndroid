@@ -6,6 +6,11 @@ import android.os.Bundle;
 
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.event.BreakUpEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -23,5 +28,17 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, (Fragment) view)
                 .commit();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BreakUpEvent event) {
+        finish();
     }
 }
