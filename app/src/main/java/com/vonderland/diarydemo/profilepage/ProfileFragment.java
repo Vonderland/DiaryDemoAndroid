@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -131,6 +132,13 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
             }
         });
 
+        blackSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                presenter.setBlackHouse(isChecked);
+            }
+        });
+
         presenter.start();
 
         return view;
@@ -165,6 +173,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
             breakupBtn.setVisibility(View.VISIBLE);
             nickNameLL.setClickable(false);
             avatar.setClickable(false);
+            blackSwitch.setChecked(user.isBlack());
         } else {
             toolbar.setTitle("我的资料");
             myLoverLL.setVisibility(View.VISIBLE);
@@ -224,6 +233,9 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
                 break;
             case 108:
                 msgId = R.string.not_login;
+                break;
+            case 117:
+                msgId = R.string.lover_put_you_black;
                 break;
             default:
                 msgId = R.string.network_error;

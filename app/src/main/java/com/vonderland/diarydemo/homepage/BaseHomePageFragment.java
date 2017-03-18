@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.vonderland.diarydemo.R;
+import com.vonderland.diarydemo.utils.L;
 
 /**
  * Created by Vonderland on 2017/2/3.
@@ -113,5 +114,11 @@ abstract public class BaseHomePageFragment extends Fragment implements HomePageC
         if (presenter != null) {
             this.presenter = presenter;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        L.d("onResumeTest", this.getClass().toString());
     }
 }

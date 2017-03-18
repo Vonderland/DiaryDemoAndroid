@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.vonderland.diarydemo.application.DiaryDemoApplication;
+import com.vonderland.diarydemo.bean.BooleanResponse;
+import com.vonderland.diarydemo.bean.CoupleModel;
 import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.DiaryModel;
 import com.vonderland.diarydemo.bean.ListResponse;
@@ -11,8 +13,10 @@ import com.vonderland.diarydemo.bean.User;
 import com.vonderland.diarydemo.bean.UserModel;
 import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.couplepages.BlackHouseActivity;
 import com.vonderland.diarydemo.couplepages.SingleActivity;
 import com.vonderland.diarydemo.detailpage.DetailActivity;
+import com.vonderland.diarydemo.event.BlackHouseEvent;
 import com.vonderland.diarydemo.event.BreakUpEvent;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
@@ -38,6 +42,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
     private HomePageContract.View view;
     private DiaryModel diaryModel;
     private UserModel userModel;
+    private CoupleModel coupleModel;
     private List<Diary> data;
     private Diary footer;
     private Diary empty;
@@ -53,6 +58,7 @@ public class DiaryPresenter implements HomePageContract.Presenter {
 
         diaryModel = new DiaryModel();
         userModel = new UserModel();
+        coupleModel = new CoupleModel();
         data = new ArrayList<>();
 
         footer = new Diary();
@@ -232,6 +238,8 @@ public class DiaryPresenter implements HomePageContract.Presenter {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             EventBus.getDefault().post(new BreakUpEvent());
+                        } else if (refreshUser.isBlack()) {
+                            startBlack();
                         }
                         EventBus.getDefault().
                                 postSticky(new RefreshNavEvent(refreshUser.getAvatar(), refreshUser.getNickName()));
@@ -244,5 +252,30 @@ public class DiaryPresenter implements HomePageContract.Presenter {
 
             }
         });
+    }
+
+    public void checkBlack (){
+        coupleModel.isBlack(new BaseResponseHandler<BooleanResponse>() {
+            @Override
+            public void onSuccess(BooleanResponse body) {
+                if (body.getData()) {
+                    sharedPrefUtil.put(Constant.SP_KEY_IS_BLACK, true);
+                    startBlack();
+                }
+            }
+
+            @Override
+            public void onError(int statusCode) {
+
+            }
+        });
+    }
+
+    private void startBlack() {
+        Context context = DiaryDemoApplication.getGlobalContext();
+        Intent intent = new Intent(context, BlackHouseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        EventBus.getDefault().post(new BlackHouseEvent());
     }
 }

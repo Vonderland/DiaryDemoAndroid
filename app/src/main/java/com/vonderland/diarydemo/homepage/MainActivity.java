@@ -35,6 +35,7 @@ import com.vonderland.diarydemo.bean.Diary;
 import com.vonderland.diarydemo.bean.Moment;
 import com.vonderland.diarydemo.constant.Constant;
 import com.vonderland.diarydemo.editpage.EditActivity;
+import com.vonderland.diarydemo.event.BlackHouseEvent;
 import com.vonderland.diarydemo.event.BreakUpEvent;
 import com.vonderland.diarydemo.event.LogoutEvent;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
@@ -102,6 +103,22 @@ public class MainActivity extends AppCompatActivity
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                diaryPresenter.checkBlack();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         tabLayout.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -231,6 +248,11 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BreakUpEvent event) {
+        finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BlackHouseEvent event) {
         finish();
     }
 }

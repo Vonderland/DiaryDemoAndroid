@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.vonderland.diarydemo.R;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.event.BlackHouseEvent;
 import com.vonderland.diarydemo.event.BreakUpEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,6 +40,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BreakUpEvent event) {
+        finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BlackHouseEvent event) {
         finish();
     }
 }

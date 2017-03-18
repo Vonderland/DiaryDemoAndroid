@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.vonderland.diarydemo.application.DiaryDemoApplication;
+import com.vonderland.diarydemo.bean.BaseResponse;
 import com.vonderland.diarydemo.bean.CoupleModel;
 import com.vonderland.diarydemo.bean.User;
 import com.vonderland.diarydemo.bean.UserModel;
 import com.vonderland.diarydemo.bean.UserResponse;
 import com.vonderland.diarydemo.constant.Constant;
+import com.vonderland.diarydemo.couplepages.BlackHouseActivity;
 import com.vonderland.diarydemo.couplepages.SingleActivity;
+import com.vonderland.diarydemo.event.BlackHouseEvent;
 import com.vonderland.diarydemo.event.BreakUpEvent;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.network.BaseResponseHandler;
@@ -112,8 +116,25 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
     }
 
     @Override
-    public void setBlackHouse(boolean inBlackHouse) {
+    public void setBlackHouse(final boolean inBlackHouse) {
+        coupleModel.setIsBlack(inBlackHouse, new BaseResponseHandler<BaseResponse>() {
+            @Override
+            public void onSuccess(BaseResponse body) {
+                if (inBlackHouse) {
+                    view.showSuccess(ProfileFragment.SuccessType.PUT_IN_BLACK);
+                } else {
+                    view.showSuccess(ProfileFragment.SuccessType.RELEASE_FROM_BLACK);
+                }
+            }
 
+            @Override
+            public void onError(int statusCode) {
+                if (statusCode == 117) {
+                    startBlack();
+                }
+                view.showError(statusCode);
+            }
+        });
     }
 
     @Override
@@ -202,5 +223,13 @@ public class ProfilePresenter implements ProfilePageContract.Presenter {
                 }
             });
         }
+    }
+
+    private void startBlack() {
+        Context context = DiaryDemoApplication.getGlobalContext();
+        Intent intent = new Intent(context, BlackHouseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        EventBus.getDefault().post(new BlackHouseEvent());
     }
 }
