@@ -41,6 +41,7 @@ import com.vonderland.diarydemo.event.LogoutEvent;
 import com.vonderland.diarydemo.event.RefreshNavEvent;
 import com.vonderland.diarydemo.event.RegisterFinishEvent;
 import com.vonderland.diarydemo.profilepage.ProfileActivity;
+import com.vonderland.diarydemo.settingpage.AboutActivity;
 import com.vonderland.diarydemo.settingpage.SettingActivity;
 import com.vonderland.diarydemo.utils.DateTimeUtil;
 import com.vonderland.diarydemo.utils.L;
@@ -193,7 +194,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingActivity.class));
         } else if (id == R.id.nav_about) {
-
+            startActivity(new Intent(this, AboutActivity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
