@@ -43,13 +43,13 @@ public class SplashActivity extends AppCompatActivity {
         boolean isBlack = (boolean)sharedPrefUtil.get(Constant.SP_KEY_IS_BLACK, false);
 
         if (TextUtils.isEmpty(token) || !remember) {
-            mHandler.sendEmptyMessageDelayed(GOTO_LOGIN, 0);
+            mHandler.sendEmptyMessageDelayed(GOTO_LOGIN, 1500);
         } else if (loverId == -1) {
-            mHandler.sendEmptyMessageDelayed(GOTO_SINGLE, 0);
+            mHandler.sendEmptyMessageDelayed(GOTO_SINGLE, 1500);
         } else if (isBlack) {
-            mHandler.sendEmptyMessageDelayed(GOTO_BLACK_HOUSE, 0);
+            mHandler.sendEmptyMessageDelayed(GOTO_BLACK_HOUSE, 1500);
         } else {
-            mHandler.sendEmptyMessageDelayed(GOTO_MAIN, 0);
+            mHandler.sendEmptyMessageDelayed(GOTO_MAIN, 1500);
         }
     }
 

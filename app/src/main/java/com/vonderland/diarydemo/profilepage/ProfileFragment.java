@@ -173,7 +173,6 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
             breakupBtn.setVisibility(View.VISIBLE);
             nickNameLL.setClickable(false);
             avatar.setClickable(false);
-            blackSwitch.setChecked(user.isBlack());
         } else {
             toolbar.setTitle("我的资料");
             myLoverLL.setVisibility(View.VISIBLE);
@@ -198,6 +197,7 @@ public class ProfileFragment extends Fragment implements ProfilePageContract.Vie
             email.setText(user.getEmail());
             nickName.setText(user.getNickName());
             gender.setText(user.isGender() ? "女" : "男");
+            blackSwitch.setChecked(user.isBlack());
         }
     }
 

@@ -5,7 +5,7 @@ package com.vonderland.diarydemo.constant;
  */
 
 public class Constant {
-    public static final String HOST = "http://192.168.88.104:8080/";
+    public static final String HOST = "http://172.18.150.156:8080/";
 
     // 网络请求参数 key
     public static final String KEY_TITLE = "title";
